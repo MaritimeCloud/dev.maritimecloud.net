@@ -1,0 +1,14 @@
+.DS_Store
+/bin
+target
+.checkstyle
+.settings
+.project
+.classpath
+/_old
+mc-msdl/*.msdl
+mc-msdl/generated
+private
+TODO*
+dependency-reduced-pom.xml
+mc-rest
