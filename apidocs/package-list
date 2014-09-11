@@ -1,0 +1,10 @@
+net.maritimecloud.core.id
+net.maritimecloud.message
+net.maritimecloud.mms
+net.maritimecloud.mms.endpoint
+net.maritimecloud.msdl
+net.maritimecloud.msdl.model
+net.maritimecloud.net
+net.maritimecloud.util
+net.maritimecloud.util.geometry
+net.maritimecloud.util.units
