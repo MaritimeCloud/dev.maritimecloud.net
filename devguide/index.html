@@ -5,6 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
+<meta name="author" content="&lt;&lt;&lt;">
 <title>Maritime Cloud Developer Guide 0.2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
@@ -518,6 +519,9 @@ MathJax.Hub.Config({
 <body class="book toc2 toc-right">
 <div id="header">
 <h1>Maritime Cloud Developer Guide 0.2</h1>
+<div class="details">
+<span id="author" class="author">&lt;&lt;&lt;</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -535,11 +539,9 @@ MathJax.Hub.Config({
 <li><a href="#installing-the-client">2.1. Installing the client</a></li>
 <li><a href="#identity">2.2. Identity</a></li>
 <li><a href="#positionreader">2.3. PositionReader</a></li>
-<li><a href="#connecting">2.4. Connecting</a></li>
-<li><a href="#status-of-the-connection">2.5. Status of the connection</a></li>
-<li><a href="#shutting-down-the-client">2.6. Shutting down the client</a></li>
-<li><a href="#manually-connecting-and-disconnecting">2.7. Manually Connecting and Disconnecting</a></li>
-<li><a href="#setting-up-your-own-server">2.8. Setting up your own server</a></li>
+<li><a href="#connecting-and-disconnecting">2.4. Connecting and Disconnecting</a></li>
+<li><a href="#connection-status">2.5. Connection status</a></li>
+<li><a href="#setting-up-your-own-mms-server">2.6. Setting up your own MMS server</a></li>
 </ul>
 </li>
 <li><a href="#the-first-service">3. The first service</a>
@@ -573,20 +575,19 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div style="page-break-after: always;"></div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This development guide describes the current state of the Maritime Cloud as of September 2014. Detailing the 0.2 release of the Maritime Cloud.
-Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to common questions. Google Groups is also where we post information about new releases and updated documentation.</p>
+Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
 </div>
 <div class="paragraph">
 <p>This developer guide is intended to make your familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy</p>
+</div>
+<div class="paragraph">
+<p>Some experience with developing for the Java platform is required for using this development guide.
+Developers should as minimum be able to write short single file Java programs. In addition to knowledge about the Java platform. Some sections requires usage of the Apache Maven build tool.</p>
 </div>
 <div class="sect2">
 <h3 id="a-bit-of-history"><a class="anchor" href="#a-bit-of-history"></a>1.1. A Bit of History</h3>
@@ -630,13 +631,13 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Identity Registry:</strong> A centralized authority for identities of actors using the Maritime Cloud.</p>
+<p><strong>Identity Registry:</strong> A centralized authority for identities of persons, organizations or ships that are using the Maritime Cloud.</p>
 </li>
 <li>
 <p><strong>Service Registry:</strong> A centralized repository of service standards and provisioned services.</p>
 </li>
 <li>
-<p><strong>Maritime Messaging Service (MMS):</strong> A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting. Geocasting refers to the delivery of information to a group of actors in a network identified by their geographical locations.</p>
+<p><strong>Maritime Messaging Service (MMS):</strong> A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting<span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>.</p>
 </li>
 </ul>
 </div>
@@ -692,9 +693,11 @@ Only the Maritime Messaging Service (MMS) is functional. While functional, pleas
 In the next chapter we go into details about how to communicate with other actors connected to the same MMS Server</p>
 </div>
 <div class="paragraph">
-<p>A cornerstone in the MMS protocol is that no actors/clients are never directly connected. Instead all actors
-must connect to the same MMS server to communicate. To send a message from a <em>Ship A</em> to a <em>Ship B</em>. Ship A must send the message
-to the MMS server which will relay the message to Ship B.</p>
+<p>The MMS protocol is an internet based protocol layered on top of TCP/IP and WebSockets. It requires a persistent connection to a central server in order to be able to receive messages from remote actors.</p>
+</div>
+<div class="paragraph">
+<p>It is actually a cornerstone in the MMS protocol that no actors/clients never directly connect. Instead all actors
+must connect to the same MMS server to communicate. To send a message from a <em>Ship A</em> to a <em>Ship B</em>. Ship A must send the message to the MMS server which will relay the message to Ship B.</p>
 </div>
 <div class="paragraph">
 <p>There are a number of reasons for this design</p>
@@ -702,11 +705,11 @@ to the MMS server which will relay the message to Ship B.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Remote actors would then have to connect to server for delivering the message.</p>
+<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Remote actors would then have to connect to every ship that it wished to send a message to.</p>
 </li>
 <li>
 <p><strong>Availability,</strong> satellite connections are in general more unreliable than landbased connections.
-It is not uncommon that connections comes and go.</p>
+It is not uncommon that connections comes and go. Having a central server that is always on where you can send your message to. Simplifies a lot of the clients work.</p>
 </li>
 <li>
 <p><strong>Bandwidth,</strong> while creating a new TCP/IP connection is a lightway process. It still takes both time and bandwidth.</p>
@@ -737,7 +740,7 @@ It is not uncommon that connections comes and go.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If you are using the MMS client in a J2EE server we have a special client that uses functionality whereever possible of the J2EE server. Just replace <em>mc-mms-client</em> with <em>mc-mms-client-javaee</em> in the above URL/dependency.</p>
+<p>If you are using the MMS client in a Java EE 7 (or greater) server we have a special client that uses functionality whereever possible of the Jave EE server. Just replace <em>mc-mms-client</em> with <em>mc-mms-client-javaee</em> in the above URL/dependency.</p>
 </div>
 </div>
 <div class="sect2">
@@ -746,7 +749,10 @@ It is not uncommon that connections comes and go.</p>
 <p>The first thing you need to do before connecting to a MMS server is to create a MaritimeId which is your unique identity. Think of it as your user name. At some point a centralized indentity will main a database of all users and their identity. But since the Identity Registry is still being specified we are forced to use a temporary solution.</p>
 </div>
 <div class="paragraph">
-<p>Any client connecting must use a integer identifier as their username. If you are emulating a ship you should use its 9 digit MMSI number. Otherwise you are free to choose the id. You should probably stay away for using numbers with 1-4 digits. Because if an actor connects to a MMS server with an identical ID to one that is already connected. The actor that is already connected is automatically disconnected. We use 0123456789 in all examples but you will want to replace it. For various historic reasons the number must be prefixed with "mmsi:".</p>
+<p>Any client connecting must use a integer identifier as their username. If you are emulating a ship you should use its 9 digit MMSI number. Otherwise you are free to choose the id. You should probably stay away for using numbers with 1-4 digits. Because if an actor connects to a MMS server with an identical ID to one that is already connected. The actor that is already connected is automatically disconnected. We use 0123456789 in most examples but you will want to replace it.</p>
+</div>
+<div class="paragraph">
+<p>For various historic reasons the number must be prefixed with "mmsi:".</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -762,7 +768,7 @@ It is not uncommon that connections comes and go.</p>
 </div>
 <div class="paragraph">
 <p>While not required we would appreciate if you set some details about the client that is connected.
-These are not required, but they are used by the Maritime Cloud development team to see who is using the cloud.</p>
+These are not required, but they are used by the Maritime Cloud development team to see who is connected to the cloud.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -804,57 +810,145 @@ conf.setPositionReader(simulatedReader);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The above position reader will keep returning positions svarende til at
-skibet sejler
-With a speed between 10 and 30 knots. Within a circle with center at 55E, 45W with a radius of 1 degree.</p>
+<p>The simulated position reader created in the above example. Will just sail around in a fixed circle
+with a speed between 10 and 30 knots.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="connecting"><a class="anchor" href="#connecting"></a>2.4. Connecting</h3>
+<h3 id="connecting-and-disconnecting"><a class="anchor" href="#connecting-and-disconnecting"></a>2.4. Connecting and Disconnecting</h3>
 <div class="paragraph">
 <p>The last thing you need to do before connecting is to set the hostname of the MMS server.
-Unless you have set up your own server (which is easy, see later section). You can use the public instance available at</p>
+Unless you have set up your own server (which is easy, see later section). You can use the public instance available at mms02.maritimecloud.net.</p>
 </div>
 <div class="paragraph">
-<p>Expect the port and url to change for every release of the Maritime Cloud. The details of the underlying MMS protocol is still being fleshed out. And different releases are not compatible.</p>
+<p>If you repeatedly fail to connect make sure you are not behind any kind of firewall by telnetting to the MMS server "telnet mms02.maritimecloud.net 43234". If you keep having problems ask for help in our Google Group.</p>
 </div>
 <div class="paragraph">
-<p>Now its time to create the MMSClient which you will use to send and receive remote messages.
-When you create the client it will automatically (in the background) connect to the MMS server.</p>
+<p>Expect the port and url of the public instance to change for every release of the Maritime Cloud. The details of the underlying MMS protocol is still being fleshed out. And different releases are not compatible for the time being.</p>
 </div>
 <div class="paragraph">
-<p>The next chapter will detail how you can actually do anything useful with the Maritime Messaging Service.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="status-of-the-connection"><a class="anchor" href="#status-of-the-connection"></a>2.5. Status of the connection</h3>
-
-</div>
-<div class="sect2">
-<h3 id="shutting-down-the-client"><a class="anchor" href="#shutting-down-the-client"></a>2.6. Shutting down the client</h3>
-<div class="paragraph">
-<p>You should always remember to shutdown the client properly. This is mainly done to make sure that all messages that you have send have been properly delivered to the MMS Server.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="manually-connecting-and-disconnecting"><a class="anchor" href="#manually-connecting-and-disconnecting"></a>2.7. Manually Connecting and Disconnecting</h3>
-<div class="paragraph">
-<p>If you wish to manually connect you need to use</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="setting-up-your-own-server"><a class="anchor" href="#setting-up-your-own-server"></a>2.8. Setting up your own server</h3>
-<div class="paragraph">
-<p>If you want to set up your own MMS server it is very easy. Just follow these two simple steps.</p>
+<p>After having set the host the last thing is to create the MMSClient which you will use to send and receive remote messages. When you create the client it will automatically (in the background) connect to the MMS server.
+The full source of the example will also print out "success" when it
+has successfully connected. And finally close/shutdown the client as the last thing.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.2/mc-mms-server-standalone-0.2.jar
-java -cp mc-mms-server-standalone-0.2.jar net.maritimecloud.mms.server.Main</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">java.util.concurrent.TimeUnit</span>;
+
+<span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms</span>.*;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry</span>.*;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MMSConnect</span> {
+  <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    MmsClientConfiguration conf = MmsClientConfiguration.create();
+
+    MaritimeId id = MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:123456789</span><span class="delimiter">&quot;</span></span>);
+    conf.setId(id);
+
+    conf.properties().setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">MobyDick</span><span class="delimiter">&quot;</span></span>);
+    conf.properties().setOrganization(<span class="string"><span class="delimiter">&quot;</span><span class="content">Danish Maritime Authority</span><span class="delimiter">&quot;</span></span>);
+    conf.properties().setDescription(<span class="string"><span class="delimiter">&quot;</span><span class="content">A fictiv vessel used in the Mona Lisa 2 project</span><span class="delimiter">&quot;</span></span>);
+
+    conf.setPositionReader(<span class="keyword">new</span> PositionReader() {
+      <span class="directive">public</span> PositionTime getCurrentPosition() {
+        <span class="keyword">return</span> PositionTime.create(<span class="integer">10</span>, <span class="integer">20</span>, <span class="predefined-type">System</span>.currentTimeMillis());
+      }
+    });
+
+    conf.setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">mms02.maritimecloud.net</span><span class="delimiter">&quot;</span></span>);
+
+    MmsClient client = conf.build();
+
+    <span class="comment">// Wait for a connection for 10 seconds</span>
+    <span class="keyword">if</span> (client.connection().awaitConnected(<span class="integer">10</span>, <span class="predefined-type">TimeUnit</span>.SECONDS)) {
+      <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Succesfully connected to the MaritimeCloud test server</span><span class="delimiter">&quot;</span></span>);
+    } <span class="keyword">else</span> {
+      <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sorry, could not connect to the MaritimeCloud test server</span><span class="delimiter">&quot;</span></span>);
+    }
+
+    <span class="comment">//Disconnect</span>
+    client.close();
+    client.awaitTermination(<span class="integer">10</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);
+    }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And then use the hostname where the server is running when you configure the MMS client.</p>
+<p>You should always remember to shutdown the client properly. This is mainly done to make sure that all messages that you have send have been properly delivered to the MMS Server.</p>
+</div>
+<div class="paragraph">
+<p>Just as connecting is asynchronous so is shutdown of the client asynchronous.
+So after have performed the shutdown you need to await for the client to have fully shutdown the connection to the MMS server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="connection-status"><a class="anchor" href="#connection-status"></a>2.5. Connection status</h3>
+<div class="paragraph">
+<p>While the MMS client will automatically connect and reconnect whenever a connection is lost. It is sometimes
+useful to be able to query the actual state of the connection. This is easily done by querying the client</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Is connected = </span><span class="delimiter">&quot;</span></span> + client.connection().isConnected());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also manually connect and disconnect if you want to.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
+
+<span class="comment">// Now lets reconnect again</span>
+client.connection().connect();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also block the current thread if you want to wait on a connection being connected or disconnected.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
+<span class="comment">//Now lets wait up to ten seconds for finishing disconnecting</span>
+client.connection().awaitDisconnected(<span class="integer">10</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, before creating a MMSClient you can register a listener that will be invoked every time the status of the connection is changed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">MmsClientConfiguration conf = MmsClientConfiguration.create();
+conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
+  <span class="directive">public</span> <span class="type">void</span> connecting(<span class="predefined-type">URI</span> host) {
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to connect to </span><span class="delimiter">&quot;</span></span> + host);
+  }
+
+  <span class="directive">public</span> <span class="type">void</span> connected() {
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Connected</span><span class="delimiter">&quot;</span></span>);
+  }
+
+  <span class="directive">public</span> <span class="type">void</span> disconnected(MmsConnectionClosingCode closeReason) {
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Disconnected </span><span class="delimiter">&quot;</span></span> + closeReason);
+  }
+});</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-up-your-own-mms-server"><a class="anchor" href="#setting-up-your-own-mms-server"></a>2.6. Setting up your own MMS server</h3>
+<div class="paragraph">
+<p>If for some reason you want to set up your own MMS server it is very easy. Just follow these two simple steps.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.2.1/mc-mms-server-standalone-0.2.1.jar
+java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And then use the hostname where the MMS server is running when you configure the MMS client.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -918,7 +1012,7 @@ to the delivery of information to a group of destinations in a network identifie
 <h2 id="msdl"><a class="anchor" href="#msdl"></a>5. MSDL</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>MSDL is an interface description language <span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span> or specification language used for describing the interface of a particular set of services in the Maritime Cloud. MSDL is to the Maritime Cloud what IDL is to Corba and what WSDL is to XML based web services.</p>
+<p>MSDL is an interface description language <span class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</span> or specification language used for describing the interface of a particular set of services in the Maritime Cloud. MSDL is to the Maritime Cloud what IDL is to Corba and what WSDL is to XML based web services.</p>
 </div>
 <div class="paragraph">
 <p>In order to develop new services for the Maritime Cloud you need to specify the interfaces of the services as a MSDL file. Even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you consumer</p>
@@ -928,6 +1022,21 @@ to the delivery of information to a group of destinations in a network identifie
 </div>
 <div class="paragraph">
 <p>This following sections in this chapter describes the syntax of MSDL.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/asciidoctor-diagram-classes.png" alt="asciidoctor diagram classes" width="256" height="283">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/diag-b7385ca206a99f639d3ccd588deef292.png" alt="Diagram" width="540" height="280">
+</div>
 </div>
 <div class="paragraph">
 <p>MSDL works with two core concepts:</p>
@@ -946,13 +1055,13 @@ to the delivery of information to a group of destinations in a network identifie
 <h3 id="types"><a class="anchor" href="#types"></a>5.1. Types</h3>
 <div class="paragraph">
 <p>The MSDL type system consists of pre-defined base types, user-defined structs and container types.
-Built-in data types are always all lowercase such as <em>float</em>. Custom defined datatypes always starts with a capital letter such as <em>Waypoint</em>.</p>
+Built-in data types are always all lowercase such as <em>float</em>. Custom defined datatypes always starts with a capital letter such as a <em>Waypoint</em> or a "TacticalRoute".</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 33%;">
-<col style="width: 33%;">
-<col style="width: 33%;">
+<col style="width: 17%;">
+<col style="width: 41%;">
+<col style="width: 41%;">
 </colgroup>
 <thead>
 <tr>
@@ -1035,7 +1144,7 @@ Built-in data types are always all lowercase such as <em>float</em>. Custom defi
 </tbody>
 </table>
 <div class="paragraph">
-<p>There are no support for unsigned integers as they are not supported on all platforms.</p>
+<p>There are no support for unsigned integers as they are not supported on all platforms (well we only have one so far).</p>
 </div>
 </div>
 <div class="sect2">
@@ -1060,7 +1169,7 @@ Built-in data types are always all lowercase such as <em>float</em>. Custom defi
 <div class="sect2">
 <h3 id="containers"><a class="anchor" href="#containers"></a>5.4. Containers</h3>
 <div class="paragraph">
-<p>MSDL containers are strongly typed containers that map to the most commonly used containers in popular programming languages. They are annotated using the Java Generics style. There are two containers types available:</p>
+<p>MSDL containers are strongly typed containers that map to the most commonly used containers in popular programming languages. They are annotated using the Java Generics style. There are currently two containers types available:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1097,19 +1206,25 @@ A map type is planned for future versions of MSDL.</p>
 <p>Namespaces in MSDL are akin to namespaces in C++ or packages in Java — they offer a convenient way of organizing (or isolating) your code. Namespaces may also be used to prevent name clashes between type definitions.</p>
 </div>
 <div class="paragraph">
-<p>While not required</p>
+<p>While not required at the moment. A</p>
 </div>
 <div class="paragraph">
 <p>dma.route.xxx</p>
+</div>
+<div class="paragraph">
+<p>Having a company acme.</p>
+</div>
+<div class="paragraph">
+<p>We envision a global repository of MSDL files (Service Repository) where everyone can upload their MSDL files.
+Every organization is then responsible for maintaining all their own MSDL files under their own namespace</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="includes"><a class="anchor" href="#includes"></a>5.8. Includes</h3>
 <div class="paragraph">
-<p>It is often useful to split up Thrift definitions in separate files to ease maintainance, enable reuse and improve modularity/organization. Thrift allows files to include other Thrift files. Included files are looked up in the current directory and by searching relative to any paths specified with the -I compiler flag.
-Included objects are accessed using the name of the Thrift file as a prefix.
-include "tweet.thrift"           // 1
-&#8230;&#8203;
+<p>It is often useful to split up MSDL definitions in separate files to ease maintenance, enable reuse and improve modularity/organization. MSDL allows files to include other MSDL files. Included files are looked up in the current directory and by searching relative to any paths specified when compiling.
+include "tweet.thrift";           // 1
+.
 struct TweetSearchResult {
     1: list&lt;tweet.Tweet&gt; tweets; // 2
 }</p>
@@ -1155,12 +1270,15 @@ Make MSDL file service</p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnote_1">
-<a href="#_footnoteref_1">1</a>. <a href="http://en.wikipedia.org/wiki/Interface_description_language" class="bare">http://en.wikipedia.org/wiki/Interface_description_language</a>
+<a href="#_footnoteref_1">1</a>. Geocasting refers to the delivery of information to a group of actors identified by their geographical locations.
+</div>
+<div class="footnote" id="_footnote_2">
+<a href="#_footnoteref_2">2</a>. <a href="http://en.wikipedia.org/wiki/Interface_description_language" class="bare">http://en.wikipedia.org/wiki/Interface_description_language</a>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-09-11 15:12:34 CEST
+Last updated 2014-09-11 17:12:50 CEST
 </div>
 </div>
 </body>
