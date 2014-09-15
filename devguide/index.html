@@ -544,11 +544,11 @@ MathJax.Hub.Config({
 <li><a href="#setting-up-your-own-mms-server">2.6. Setting up your own MMS server</a></li>
 </ul>
 </li>
-<li><a href="#the-first-service">3. The first service</a>
+<li><a href="#mms-and-services">3. MMS and Services</a>
 <ul class="sectlevel2">
-<li><a href="#installing-the-example-jar">3.1. Installing the example jar</a></li>
-<li><a href="#service-provider">3.2. Service Provider</a></li>
-<li><a href="#service-consumer">3.3. Service Consumer</a></li>
+<li><a href="#endpoint-definition">3.1. Endpoint Definition</a></li>
+<li><a href="#a-simple-example">3.2. A simple example</a></li>
+<li><a href="#service-discovery">3.3. Service Discovery</a></li>
 </ul>
 </li>
 <li><a href="#geocasting">4. Geocasting</a>
@@ -643,7 +643,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 </div>
 <div class="paragraph">
 <p>Both the identity registry and service registry are still in the specification stage.
-Only the Maritime Messaging Service (MMS) is functional. While functional, please note that it is still at a beta stage. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
+Only the Maritime Messaging Service (MMS) is functional. While functional, please note that it is still at a alpha quality stage. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
 </div>
 </div>
 <div class="sect2">
@@ -899,7 +899,6 @@ useful to be able to query the actual state of the connection. This is easily do
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
-
 <span class="comment">// Now lets reconnect again</span>
 client.connection().connect();</code></pre>
 </div>
@@ -910,7 +909,7 @@ client.connection().connect();</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
-<span class="comment">//Now lets wait up to ten seconds for finishing disconnecting</span>
+<span class="comment">//Now lets wait up to ten seconds for a fully disconnect</span>
 client.connection().awaitDisconnected(<span class="integer">10</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);</code></pre>
 </div>
 </div>
@@ -955,37 +954,176 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="the-first-service"><a class="anchor" href="#the-first-service"></a>3. The first service</h2>
+<h2 id="mms-and-services"><a class="anchor" href="#mms-and-services"></a>3. MMS and Services</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This chapter outlines how you invoke and register new services for use in the Maritime Message</p>
+<p>This chapter outlines how you can invoke and register services/endpoints using the Maritime Messaging Service. Since we use the word service in many situations with regards to the Maritime Cloud. We refer to services exposed via MMS as MMS endpoints or sometimes just endpoints.</p>
 </div>
 <div class="paragraph">
-<p>There are two parts.</p>
+<p>MMS endpoints are similar to web services. Basically an endpoint us just a method for communicating between two electronic devices over a network. Normally there is two parties involved in the exchange of data using a Web Service. A <em>Service Provider</em> who will <strong>implement</strong> the service for others to use. And a <em>Service Consumer</em> who will <strong>use</strong> implementations provided by Service Providers.</p>
 </div>
 <div class="paragraph">
-<p>There is the provider of the service.</p>
+<p>However, when endpoints are invoked using the Maritime Messaging Service the MMS serve acts as a relay as descibed by following sequence diagram:</p>
 </div>
-<div class="paragraph">
-<p>And then there is the consumer of the service.</p>
-</div>
-<div class="sect2">
-<h3 id="installing-the-example-jar"><a class="anchor" href="#installing-the-example-jar"></a>3.1. Installing the example jar</h3>
-<div class="paragraph">
-<p>To make things easy we have created an example jar which that will be use in the next 2 chapters.
-This is mainly . In later chapters we will see how you can develop your own services.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/diag-94595f7727fbc10ed8a5d0b6c78126aa.png" alt="Diagram" width="661" height="216">
 </div>
 </div>
 <div class="sect2">
-<h3 id="service-provider"><a class="anchor" href="#service-provider"></a>3.2. Service Provider</h3>
+<h3 id="endpoint-definition"><a class="anchor" href="#endpoint-definition"></a>3.1. Endpoint Definition</h3>
 <div class="paragraph">
-<p>First let us look at the provider part of the service.</p>
+<p>Normally, the definition of an endpoint is defined in a MSDL file. This file is than used to generate Java stubs that must be implemented by the party implementing the API of the endpoint. But for the following couple of examples we have already generated the stubs. So all you need to do use the following examples is to download the example jar and add it to your classpath. In later chapters we will see how you can write MSDL with your own endpoints.</p>
+</div>
+<div class="paragraph">
+<p>The example jar available her <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you are using Maven (or a similar build system) you can use the following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.examples<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>developer-guide<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.2<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="service-consumer"><a class="anchor" href="#service-consumer"></a>3.3. Service Consumer</h3>
+<h3 id="a-simple-example"><a class="anchor" href="#a-simple-example"></a>3.2. A simple example</h3>
 <div class="paragraph">
-<p>MMS</p>
+<p>In the following sections we will be using a very simple endpoint to demonstrate how endpoints can be used with the Maritime Messaging Service.</p>
+</div>
+<div class="paragraph">
+<p>Out endpoint is very simple. It is just a single method that takes two integers and returns the sum of the two.
+Not something you would ever use a remote service for, but for demonstratial purposes it will do just fine.
+Without going into detail, here is the definition of the endpoint in MSDL.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="asciidoc">namespace maritimecloud.examples;
+
+endpoint MathEndpoint {
+  /* Returns the sum of the two specified integer. */
+  int sum(1:int left, 2:int right);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Endpoint definitions in MSDL are pretty similar to interface definitions in Java or C++ semantically wise. However the syntax is a bit different.</p>
+</div>
+<div class="paragraph">
+<p>The example jar you have downloaded already contains the stubs that was generated by MSDL code generator. For each endpoint two java stub files are generated. In this case an abstract class called <em>maritimecloud.examples.AbstractMathEndpoint</em> which the service provider must extend. And an interface called <em>maritimecloud.examples.MathEndpoint</em> which the service consumer uses to invoke the remote service.</p>
+</div>
+<div class="sect3">
+<h4 id="service-provider"><a class="anchor" href="#service-provider"></a>3.2.1. Service Provider</h4>
+<div class="paragraph">
+<p>Let us first look at the service provider who will implement the functionality of the endpoint.</p>
+</div>
+<div class="paragraph">
+<p>As previously mentioned we need to extend a class called AbstractMathEndpoint which that was generated from the MSDL file. All methods of the endpoint are abstract methods that must be implemented. Besides the actual parameters to the endpoint. Each endpoint method also takes a <em>context</em> object. This context can be used to query information about who is invoking the service. And what position there where at when invoking the service.</p>
+</div>
+<div class="paragraph">
+<p>Our provider is really simple we just need to add two integers given. But in addition to the actual summation our implementation also prints out the two numbers and the id of the remote client that invoked the method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">maritimecloud.examples.AbstractMathEndpoint</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MathEndpointImplementation</span> <span class="directive">extends</span> AbstractMathEndpoint{
+  <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(<span class="predefined-type">Context</span> context, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + context.getCaller());
+    <span class="keyword">return</span> left + right;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We also need to register the implementation with a MMS Server so remote clients can invoke methods on the endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Here is the full example of the Service Provider. For simplicity we have just embedded the actual endpoint implementation from the previous example as an anonymous class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">maritimecloud.examples.AbstractMathEndpoint</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceProvider</span> {
+  <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">mms02.maritimecloud.net</span><span class="delimiter">&quot;</span></span>).build();
+
+    c.endpointRegister(<span class="keyword">new</span> AbstractMathEndpoint() {
+      <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(<span class="predefined-type">Context</span> context, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + context.getCaller());
+        <span class="keyword">return</span> left + right;
+      }
+    });
+
+    <span class="predefined-type">Thread</span>.sleep(<span class="integer">1000000</span>);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run the code anyone connected to the same MMS server will now be able to use your service. The next section shows how to do this.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="service-consumer"><a class="anchor" href="#service-consumer"></a>3.2.2. Service Consumer</h4>
+<div class="paragraph">
+<p>To access a remote endpoint you must use an interface that is generated from a MSDL file.</p>
+</div>
+<div class="paragraph">
+<p>In this case the maritimecloud.examples.MathEndpoint interface. Assuming we know the remote id of the service provider. Invoking the remote <em>sum</em> method is very easy. Just make sure the service provider defined in the previous section is still running.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">java.util.concurrent.TimeUnit</span>;
+
+<span class="keyword">import</span> <span class="include">maritimecloud.examples.MathEndpoint</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.endpoint.EndpointInvocationFuture</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceConsumer</span> {
+  <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:2223333</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">mms02.maritimecloud.net</span><span class="delimiter">&quot;</span></span>).build();
+
+    MathEndpoint e = c.endpointFind(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>), MathEndpoint.class);
+
+    EndpointInvocationFuture&lt;<span class="predefined-type">Integer</span>&gt; sum = e.sum(<span class="integer">123</span>, <span class="integer">456</span>);
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content"> 123 + 456 = </span><span class="delimiter">&quot;</span></span> + sum.join());
+
+    c.close();
+    c.awaitTermination(<span class="integer">1</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example should be pretty self explanatory. However, the use of EndpointInvocationFuture might merit some explaining.</p>
+</div>
+<div class="paragraph">
+<p>In our implementation of the Maritime Cloud every operation that might result in a network access is asynchronous.
+That is the method/operation will return immediatly with a future that acts as a proxy for the result that is initially unknown.</p>
+</div>
+<div class="paragraph">
+<p>In order to get the actual result of the operation you need to invoke <em>.join()</em> on the returned future. The interface is really simple now. But in future versions this interface will be extended with additional operations for blocking and asynchronous completion.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="service-discovery"><a class="anchor" href="#service-discovery"></a>3.3. Service Discovery</h3>
+<div class="paragraph">
+<p>Sometimes we might not know the id of the service provider. For example,</p>
+</div>
+<div class="paragraph">
+<p>Future versions will contain more functionality for dynamically discovering services.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1015,41 +1153,28 @@ to the delivery of information to a group of destinations in a network identifie
 <p>MSDL is an interface description language <span class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</span> or specification language used for describing the interface of a particular set of services in the Maritime Cloud. MSDL is to the Maritime Cloud what IDL is to Corba and what WSDL is to XML based web services.</p>
 </div>
 <div class="paragraph">
-<p>In order to develop new services for the Maritime Cloud you need to specify the interfaces of the services as a MSDL file. Even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you consumer</p>
+<p>In order to develop new services that can used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
 </div>
 <div class="paragraph">
-<p>An MSDL is just a text file with a standizied syntax. Just to give you an idea of how this a MSDL file looks here is part of the definition we have used in the previous chapters.</p>
+<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is part of the definition we have used in the previous chapters.</p>
 </div>
 <div class="paragraph">
-<p>This following sections in this chapter describes the syntax of MSDL.</p>
+<p>ABVDDSDFDF</p>
+</div>
+<div class="paragraph">
+<p>The syntax of MSDL is inspired by Apache Thrift, a remote procedure call (RPC) framework developed at Facebook.
+While the main binary serialization format is inspired by the binary wire format used by Protocol Buffers, developed at Google. If you have been using any of those 2 projects you should feel right at home when using MSDL.</p>
+</div>
+<div class="paragraph">
+<p>Here is a rough sketch of how MSDL is used.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
 </div>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/asciidoctor-diagram-classes.png" alt="asciidoctor diagram classes" width="256" height="283">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/diag-b7385ca206a99f639d3ccd588deef292.png" alt="Diagram" width="540" height="280">
-</div>
-</div>
 <div class="paragraph">
-<p>MSDL works with two core concepts:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>*A Message, * which is a collection of named fields with a specific type. Similar to how a table is defined in a database or a class in an object oriented language.</p>
-</li>
-<li>
-<p>*An Endpoint, * which is collection of methods that can be invoked from a remote host. Similar to how a web service is defined.</p>
-</li>
-</ul>
+<p>This following sections in this chapter describes the syntax of MSDL.</p>
 </div>
 <div class="sect2">
 <h3 id="types"><a class="anchor" href="#types"></a>5.1. Types</h3>
@@ -1149,7 +1274,17 @@ Built-in data types are always all lowercase such as <em>float</em>. Custom defi
 </div>
 <div class="sect2">
 <h3 id="enums"><a class="anchor" href="#enums"></a>5.2. Enums</h3>
-
+<div class="paragraph">
+<p>An enum (also called enumeration or enumerated type) is a data type consisting of a set of named values called elements, members or enumerators of the type.</p>
+</div>
+<div class="paragraph">
+<p>In the following example we have added an enum called TweetType with all the possible values, and a field of the same type:
+enum Severity {
+    Message = 1;
+    Warning = 2;
+    Alert = 3;
+}</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="message"><a class="anchor" href="#message"></a>5.3. Message</h3>
@@ -1206,7 +1341,11 @@ A map type is planned for future versions of MSDL.</p>
 <p>Namespaces in MSDL are akin to namespaces in C++ or packages in Java — they offer a convenient way of organizing (or isolating) your code. Namespaces may also be used to prevent name clashes between type definitions.</p>
 </div>
 <div class="paragraph">
-<p>While not required at the moment. A</p>
+<p>A naming scheme that allows subdelegation of namespaces to third parties is a hierarchical namespace</p>
+</div>
+<div class="paragraph">
+<p>If you intend to share MSDL files withNamespaces should always be
+For example, at the Danish Maritime Authorities we put all the MSDL files we develop into a "dma.<strong>*</strong>" namespace.</p>
 </div>
 <div class="paragraph">
 <p>dma.route.xxx</p>
@@ -1241,6 +1380,24 @@ struct TweetSearchResult {
 <div class="paragraph">
 <p>We expect very few people to actually implement their own serialization protocol. And we will not cover how to do this in this developer guide. Instead look at how the existing JSON protocol is implemented.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/asciidoctor-diagram-classes.png" alt="asciidoctor diagram classes" width="256" height="283">
+</div>
+</div>
+<div class="paragraph">
+<p>MSDL works with two core concepts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>*A Message, * which is a collection of named fields with a specific type. Similar to how a table is defined in a database or a class in an object oriented language.</p>
+</li>
+<li>
+<p>*An Endpoint, * which is collection of methods that can be invoked from a remote host. Similar to how a web service is defined.</p>
+</li>
+</ul>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1263,6 +1420,17 @@ Make MSDL file service</p>
 </div>
 <div class="paragraph">
 <p>will automatically have their corresponding java classes generated.</p>
+</div>
+<div class="paragraph">
+<p>Rute
+  Waypoint</p>
+</div>
+<div class="paragraph">
+<p>BroadcastRoute</p>
+</div>
+<div class="paragraph">
+<p>server
+  LastRoute</p>
 </div>
 </div>
 </div>
