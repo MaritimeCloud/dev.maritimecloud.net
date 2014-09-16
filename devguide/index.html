@@ -569,7 +569,12 @@ MathJax.Hub.Config({
 <li><a href="#serialization-of-messages">5.9. Serialization of messages</a></li>
 </ul>
 </li>
-<li><a href="#creating-new-services">6. Creating new services</a></li>
+<li><a href="#creating-new-services">6. Creating new services</a>
+<ul class="sectlevel2">
+<li><a href="#maven-setup">6.1. Maven setup</a></li>
+<li><a href="#example">6.2. Example</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -978,7 +983,7 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 <p>Normally, the definition of an endpoint is defined in a MSDL file. This file is than used to generate Java stubs that must be implemented by the party implementing the API of the endpoint. But for the following couple of examples we have already generated the stubs. So all you need to do use the following examples is to download the example jar and add it to your classpath. In later chapters we will see how you can write MSDL with your own endpoints.</p>
 </div>
 <div class="paragraph">
-<p>The example jar available her <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar</a>.</p>
+<p>The example jar available her <a href="http://repo1.maven.org/maven2/net/maritimecloud/examples/developer-guide/0.2/developer-guide-0.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/examples/developer-guide/0.2/developer-guide-0.2.jar</a>.</p>
 </div>
 <div class="paragraph">
 <p>If you are using Maven (or a similar build system) you can use the following dependency:</p>
@@ -1564,31 +1569,19 @@ include "dma/foobar.msdl";</p>
 <h2 id="creating-new-services"><a class="anchor" href="#creating-new-services"></a>6. Creating new services</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This chapter details how you can use MSDL to develop new services that can be used over the Maritime Messaging Service.</p>
+<p>This chapter details how you can use MSDL to develop new services that can be used over the Maritime Messaging Service.
+We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</p>
 </div>
 <div class="paragraph">
-<p>We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</p>
+<p>This chapter is currently being written.</p>
 </div>
-<div class="paragraph">
-<p>=
-Make MSDL file service</p>
+<div class="sect2">
+<h3 id="maven-setup"><a class="anchor" href="#maven-setup"></a>6.1. Maven setup</h3>
+
 </div>
-<div class="paragraph">
-<p>MSDL files that are placed in src/main/msdl</p>
-</div>
-<div class="paragraph">
-<p>will automatically have their corresponding java classes generated.</p>
-</div>
-<div class="paragraph">
-<p>Rute
-  Waypoint</p>
-</div>
-<div class="paragraph">
-<p>BroadcastRoute</p>
-</div>
-<div class="paragraph">
-<p>server
-  LastRoute</p>
+<div class="sect2">
+<h3 id="example"><a class="anchor" href="#example"></a>6.2. Example</h3>
+
 </div>
 </div>
 </div>
