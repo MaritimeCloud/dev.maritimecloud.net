@@ -5,7 +5,6 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
-<meta name="author" content="&lt;&lt;&lt;">
 <title>Maritime Cloud Developer Guide 0.2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
@@ -519,9 +518,6 @@ MathJax.Hub.Config({
 <body class="book toc2 toc-right">
 <div id="header">
 <h1>Maritime Cloud Developer Guide 0.2</h1>
-<div class="details">
-<span id="author" class="author">&lt;&lt;&lt;</span><br>
-</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -579,6 +575,11 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div style="page-break-after: always;"></div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
@@ -587,11 +588,11 @@ MathJax.Hub.Config({
 Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
 </div>
 <div class="paragraph">
-<p>This developer guide is intended to make your familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy</p>
+<p>This developer guide is intended to make your familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy.</p>
 </div>
 <div class="paragraph">
 <p>Some experience with developing for the Java platform is required for using this development guide.
-Developers should as minimum be able to write short single file Java programs. In addition to knowledge about the Java platform. Some sections requires usage of the Apache Maven build tool.</p>
+Developers should as minimum be able to write short single file Java programs. Some sections requires usage of the Apache Maven build tool.</p>
 </div>
 <div class="sect2">
 <h3 id="a-bit-of-history"><a class="anchor" href="#a-bit-of-history"></a>1.1. A Bit of History</h3>
@@ -605,7 +606,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Lack of bandwidth.</strong> Only limited amounts of data could be transfered. Often using complex encoding schemes such as application specific AIS messages</p>
+<p><strong>Lack of bandwidth.</strong> Only limited amounts of data could be transfered. Often using complex encoding schemes such as application specific AIS messages.</p>
 </li>
 <li>
 <p><strong>Ease of development.</strong> There was no easy way to simulate AIS communication without a complex development setup.</p>
@@ -616,7 +617,8 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 </ul>
 </div>
 <div class="paragraph">
-<p>The first prototype was built in the winter of 2012 and was implemented in the EPD in spring 2013. During the summer of 2013 it got its name “Maritime Cloud” and the vision for a general framework for maritime communication was created. In 2014 the first releases of the Maritime Cloud was made available for the public.</p>
+<p>The first prototype was built in the winter of 2012 and was implemented in the EPD in spring 2013.
+It just featured basic point to point communication. This is basically what is the Maritime Message Service now. During the summer of 2013  the vision for a general framework for maritime communication was created. Including registries for services and identities in addition to message framework. It also got its name the “Maritime Cloud” as a sort of umbralle name for the various underlying services. In 2014 the first releases of the Maritime Cloud was made available for the public.</p>
 </div>
 </div>
 <div class="sect2">
@@ -635,25 +637,25 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Identity Registry:</strong> A centralized authority for identities of persons, organizations or ships that are using the Maritime Cloud.</p>
+<p><strong>Identity Registry.</strong> A centralized authority for identities of persons, organizations or ships that are using the Maritime Cloud.</p>
 </li>
 <li>
-<p><strong>Service Registry:</strong> A centralized repository of service standards and provisioned services.</p>
+<p><strong>Service Registry.</strong> A centralized repository of service standards and provisioned services world wide.</p>
 </li>
 <li>
-<p><strong>Maritime Messaging Service (MMS):</strong> A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting<span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>.</p>
+<p>*Maritime Messaging Service (MMS):. A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting<span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Both the identity registry and service registry are still in the specification stage.
-Only the Maritime Messaging Service (MMS) is functional. While functional, please note that it is still at a alpha quality stage. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
+Only the Maritime Messaging Service (MMS) is functional. While functional, please note that the latest realease is still alpha quality. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="java-as-a-platform"><a class="anchor" href="#java-as-a-platform"></a>1.3. Java as a platform</h3>
 <div class="paragraph">
-<p>As you will notice when getting started with the Maritime Cloud all the software we provide requires a JVM to run. While we do want to develop a C&#43;&#43;/C# client at some point. We currently do major refactorings at every release.  In order to avoid too much duplicated work we need to finalize the specification of the Maritime Cloud before we can target other platforms. We understand this will be a major issue for companies and organizations that are C&#43;&#43;/C# only. However, we do not have the resources to develop along multiple tracks at this point.</p>
+<p>As you will notice when getting started with the Maritime Cloud all the software we provide requires a JVM to run. While we do want to develop a C&#43;&#43;/C# client at some point. We currently do major refactorings at every release. In order to avoid too much duplicated work we need to finalize the specification of the Maritime Cloud before we can target other platforms. We understand this will be a major issue for companies and organizations that are C&#43;&#43;/C# only. However, we do not have the resources to develop along multiple tracks at this point.</p>
 </div>
 <div class="paragraph">
 <p>Also we have made the choice of using Java 8 as the platform. While this version has just been released. We expect it to be a mature platform once the Maritime Cloud is fully developed.</p>
@@ -700,7 +702,7 @@ In the next chapter we go into details about how to communicate with other actor
 <p>The MMS protocol is an internet based protocol layered on top of TCP/IP and WebSockets. It requires a persistent connection to a central server in order to be able to receive messages from remote actors.</p>
 </div>
 <div class="paragraph">
-<p>It is actually a cornerstone in the MMS protocol that no actors/clients never directly connect. Instead all actors
+<p>On of the main ideas behind the MMS protocol is that actors/clients never communicate directly. Instead all actors
 must connect to the same MMS server to communicate. To send a message from a <em>Ship A</em> to a <em>Ship B</em>. Ship A must send the message to the MMS server which will relay the message to Ship B.</p>
 </div>
 <div class="paragraph">
@@ -709,11 +711,11 @@ must connect to the same MMS server to communicate. To send a message from a <em
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Remote actors would then have to connect to every ship that it wished to send a message to.</p>
+<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Making them an potential target for hackers. Instead by requiring them to connect to a central server. Only the server needs to secured properly</p>
 </li>
 <li>
 <p><strong>Availability,</strong> satellite connections are in general more unreliable than landbased connections.
-It is not uncommon that connections comes and go. Having a central server that is always on where you can send your message to. Simplifies a lot of the clients work.</p>
+It is not uncommon that connections comes and go. By having a central server that is always on. It can act as a sort of mailbox if a client looses the connection temporarily.</p>
 </li>
 <li>
 <p><strong>Bandwidth,</strong> while creating a new TCP/IP connection is a lightway process. It still takes both time and bandwidth.</p>
@@ -750,7 +752,7 @@ It is not uncommon that connections comes and go. Having a central server that i
 <div class="sect2">
 <h3 id="identity"><a class="anchor" href="#identity"></a>2.2. Identity</h3>
 <div class="paragraph">
-<p>The first thing you need to do before connecting to a MMS server is to create a MaritimeId which is your unique identity. Think of it as your user name. At some point a centralized indentity will main a database of all users and their identity. But since the Identity Registry is still being specified we are forced to use a temporary solution.</p>
+<p>The first thing you need to do before connecting to a MMS server is to create a MaritimeId which is your unique identity. Think of it as your user name. At some point a centralized indentity will main a database of all users and their identity. But since the Identity Registry is still being specified we are using a temporary solution for now.</p>
 </div>
 <div class="paragraph">
 <p>Any client connecting must use a integer identifier as their username. If you are emulating a ship you should use its 9 digit MMSI number. Otherwise you are free to choose the id. You should probably stay away for using numbers with 1-4 digits. Because if an actor connects to a MMS server with an identical ID to one that is already connected. The actor that is already connected is automatically disconnected. We use 0123456789 in most examples but you will want to replace it.</p>
@@ -768,10 +770,10 @@ It is not uncommon that connections comes and go. Having a central server that i
 </div>
 </div>
 <div class="paragraph">
-<p>The above example shows how to create a MaritimeId. It also shows a MMSClientConfiguration object is created. This configuration is used to set various properties, for example, the location of the MMS server before connecting.</p>
+<p>The above example shows how to create a MaritimeId. It also shows a MMSClientConfiguration object being created. This configuration is used to set various properties, for example, the host name of the MMS server before connecting.</p>
 </div>
 <div class="paragraph">
-<p>While not required we would appreciate if you set some details about the client that is connected.
+<p>While not required, we would appreciate if you set some details about the client that is connecting.
 These are not required, but they are used by the Maritime Cloud development team to see who is connected to the cloud.</p>
 </div>
 <div class="listingblock">
@@ -785,7 +787,7 @@ conf.properties().setDescription(<span class="string"><span class="delimiter">&q
 <div class="sect2">
 <h3 id="positionreader"><a class="anchor" href="#positionreader"></a>2.3. PositionReader</h3>
 <div class="paragraph">
-<p>One of the main features of the Maritime Cloud is support for geographical services. To use these services you need to let MMS server know your current position. This is done by specifying a specifying a position reader that the MMS client can query for the current position.</p>
+<p>One of the main features of the Maritime Cloud is support for geographical services. To use these services you need to let the MMS server know your current position. This is done by specifying a position reader that the MMS client can query for the current position.</p>
 </div>
 <div class="paragraph">
 <p>Here is simple reader that returns a fixed position at (latitude, longitude) (10,20).</p>
@@ -804,7 +806,7 @@ conf.setPositionReader(staticReader);</code></pre>
 <p>Instead of just returning a fixed position. You want to replace it with your own implementation that reads from whatever navigational equipment (for example, GPS) that is available. The timestamp of the position returned must be a timestamp from the time of measurement of the returned position.</p>
 </div>
 <div class="paragraph">
-<p>If you are in an environment where you do not have access to the current position. You can use a PositionSimulator to create a fictive position. It will just endless sail around an area you specify.</p>
+<p>If you are in an environment where you do not have access to the real time positions. You can use a PositionSimulator to create a fictive dynamic position.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -814,21 +816,21 @@ conf.setPositionReader(simulatedReader);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The simulated position reader created in the above example. Will just sail around in a fixed circle
-with a speed between 10 and 30 knots.</p>
+<p>The simulated position reader created in the above example will just sail around in a fixed circle
+with a speed between 10 and 30 knots until disconnected.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="connecting-and-disconnecting"><a class="anchor" href="#connecting-and-disconnecting"></a>2.4. Connecting and Disconnecting</h3>
 <div class="paragraph">
 <p>The last thing you need to do before connecting is to set the hostname of the MMS server.
-Unless you have set up your own server (which is easy, see later section). You can use the public instance available at mms02.maritimecloud.net.</p>
+Unless you have set up your own server (which is easy, see later section). You can use our public instance at mms02.maritimecloud.net.</p>
 </div>
 <div class="paragraph">
 <p>If you repeatedly fail to connect make sure you are not behind any kind of firewall by telnetting to the MMS server "telnet mms02.maritimecloud.net 43234". If you keep having problems ask for help in our Google Group.</p>
 </div>
 <div class="paragraph">
-<p>Expect the port and url of the public instance to change for every release of the Maritime Cloud. The details of the underlying MMS protocol is still being fleshed out. And different releases are not compatible for the time being.</p>
+<p>Expect the port and url of the public instance to change for every release of the Maritime Cloud. The details of the underlying MMS protocol is still being fleshed out. And different releases are not compatible at the moment.</p>
 </div>
 <div class="paragraph">
 <p>After having set the host the last thing is to create the MMSClient which you will use to send and receive remote messages. When you create the client it will automatically (in the background) connect to the MMS server.
@@ -879,13 +881,13 @@ has successfully connected. And finally close/shutdown the client as the last th
 </div>
 </div>
 <div class="paragraph">
-<p>If you are using the public instance of the MMS Server. Your client should appear in the list of connected clients at this site <a href="http://mms02.maritimecloud.net:9099/clients/list/" class="bare">http://mms02.maritimecloud.net:9099/clients/list/</a>.</p>
+<p>If you are using the public instance of the MMS Server. Your client should appear in the list of connected clients at this site <a href="http://mms02.maritimecloud.net:9099/clients/list/" class="bare">http://mms02.maritimecloud.net:9099/clients/list/</a>. The url basically lists all clients that are connected or have recently been connected. And is primarily used for debugging.</p>
 </div>
 <div class="paragraph">
 <p>You should always remember to shutdown the client properly. This is mainly done to make sure that all messages that you have send have been properly delivered to the MMS Server.</p>
 </div>
 <div class="paragraph">
-<p>Just as connecting is asynchronous so is shutdown of the client asynchronous.
+<p>Just as connecting was done asynchronously. Shutdown of the client is also done asynchronous.
 So after have performed the shutdown you need to await for the client to have fully shutdown the connection to the MMS server.</p>
 </div>
 </div>
@@ -967,10 +969,10 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 <p>This chapter outlines how you can invoke and register services/endpoints using the Maritime Messaging Service. Since we use the word service in many situations with regards to the Maritime Cloud. We refer to services exposed via MMS as MMS endpoints or sometimes just endpoints.</p>
 </div>
 <div class="paragraph">
-<p>MMS endpoints are similar to web services. Basically an endpoint is just a method for communicating between two electronic devices over a network. Normally there is two parties involved in the exchange of data using a Web Service. A <em>Service Provider</em> who will <strong>implement</strong> the service for others to use. And a <em>Service Consumer</em> who will <strong>use</strong> implementations provided by Service Providers.</p>
+<p>MMS endpoints are similar to web services. Basically an endpoint is just a method for communicating between two electronic devices over a network. Normally there is two parties involved in the exchange of data using a Web Service. A <em>Service Provider</em> who <strong>implements</strong> a service that can be invoked by others. And a <em>Service Consumer</em> who <strong>uses</strong> implementations provided by Service Providers.</p>
 </div>
 <div class="paragraph">
-<p>When using the Maritime Messaging Service things are a little bit different. Instead of the service provider communicating directly with the service consumer. The MMS serve acts as a relay between the two parties as descibed by this diagram:</p>
+<p>When using the Maritime Messaging Service things are a little bit different. Instead of the service provider communicating directly with the service consumer. The MMS serve acts as a relay between the two parties as described by this diagram:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1004,9 +1006,7 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 <p>In the following sections we will be using a very simple endpoint to demonstrate how endpoints can be used with the Maritime Messaging Service.</p>
 </div>
 <div class="paragraph">
-<p>Our endpoint is very simple. It is just a single method that takes two integers and returns the sum of the two.
-Not something you would ever use a remote service for, but for demonstratial purposes it will do just fine.
-Without going into detail, here is the definition of the endpoint in MSDL.</p>
+<p>Our endpoint is very simple. It is just a single method that takes two integers and returns the sum of the two integers. Not something you would ever use a remote service for, but for demonstratial purposes it will do just fine. Without going into detail about the syntax, here is the definition of the endpoint in MSDL.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1027,10 +1027,10 @@ endpoint MathEndpoint {
 <div class="sect3">
 <h4 id="service-provider"><a class="anchor" href="#service-provider"></a>3.2.1. Service Provider</h4>
 <div class="paragraph">
-<p>Let us first look at the service provider swho implements the functionality of the endpoint.</p>
+<p>Let us first look at the service provider who implements the functionality of the endpoint.</p>
 </div>
 <div class="paragraph">
-<p>As previously mentioned we need to extend a class called AbstractMathEndpoint which that was generated from the MSDL file. All methods of the endpoint are abstract methods that must be implemented. Besides the actual parameters to the endpoint. Each endpoint method also takes a <em>context</em> object. This context can be used to query information about who is invoking the service. And what position there where at when invoking the service.</p>
+<p>As previously mentioned we need to extend a class called AbstractMathEndpoint which was generated from a MSDL file. All methods of the endpoint are abstract methods that must be implemented. Besides the actual parameters to the endpoint. Each endpoint method also takes a <em>context</em> object. This context can be used to query information about who is invoking the service. And what position there where at when invoking the service.</p>
 </div>
 <div class="paragraph">
 <p>Our provider is really simple we just need to add two integers given. But in addition to the actual summation our implementation also prints out the two numbers and the id of the remote client that invoked the method.</p>
@@ -1172,7 +1172,7 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-f3457fe9cc705bb691a538d51c33ba58.png" alt="Diagram" width="618" height="216">
+<img src="../images/diag-1784161ee7bc9cd630a93e3ba29550da.png" alt="Diagram" width="650" height="216">
 </div>
 </div>
 <div class="paragraph">
@@ -1597,7 +1597,7 @@ We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-09-11 17:12:50 CEST
+Last updated 2014-09-21 08:38:12 CEST
 </div>
 </div>
 </body>
