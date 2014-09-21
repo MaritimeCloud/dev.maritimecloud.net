@@ -1165,10 +1165,10 @@ That is the method/operation will return immediatly with a future that acts as a
 <p>Geocasts can be very useful, for example, if you want to send a message to every ship that is in your proximite.</p>
 </div>
 <div class="paragraph">
-<p>Instead of sending these messages directly to ships that are near. The actor send the message along to the MMS server with an indicating of the area in where this message should be delivered. This is either a relative area, for example, with a 20 km radius of the actor itself. Or an absolute area defined by a polygon.</p>
+<p>Instead of sending these messages directly to ships that are near. The actor send the message along to the MMS server with an indicating of the area in where this message should be delivered. This can be either a relative area, for example, send this message too all ships within a 20 km radius of the actor itself. Or an absolute area defined by a polygon.</p>
 </div>
 <div class="paragraph">
-<p>The MMS will then look at position of each ship that is connected to the server. And relay the message to all ships that are within the area that the actor specified.</p>
+<p>The MMS server will then look at the position of every ship that is connected to the server. And relay the message only to those ships that are within the area that the actor specified.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1241,7 +1241,7 @@ client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</
 <p>In order to develop new services that can used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
 </div>
 <div class="paragraph">
-<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is an simplified example that we use for route exchange.</p>
+<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is an example we use for route exchange.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1331,6 +1331,10 @@ While the main underlying binary serialization format is inspired by the binary 
 <div class="content">
 <img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
 </div>
+</div>
+<div class="paragraph">
+<p>The basic idea is that a single text based MSDL file is created for a service. This file is then distributed to all clients that wish to use this service. These clients then generates stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT or MMS. Or even as an application specific message (AISASM).
+The serialization mechanism is pluggable. So far we have developed a mechanism for serialization messages as JSON. But the next version (0.3) will include a compact binary serialization mechanism as well.</p>
 </div>
 <div class="paragraph">
 <p>This following sections in this chapter describes the syntax of MSDL.</p>
@@ -1437,7 +1441,7 @@ Built-in data types are always all lowercase such as <em>float</em>. Custom defi
 <p>When you’re defining a message type, you might want one of its fields to only have one of a pre-defined list of values. You can do this very simply by adding an enum to your message definition — An enum (also called enumeration or enumerated type) is a data type consisting of a set of named values called elements, members or enumerators of the type.</p>
 </div>
 <div class="paragraph">
-<p>In the following example we have added an enum called Planet with all the different planes circling the sun:</p>
+<p>In the following example we have added an enum called Planet with all the different planets circling the sun:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1468,6 +1472,31 @@ Built-in data types are always all lowercase such as <em>float</em>. Custom defi
 <div class="paragraph">
 <p>Messages do <strong>not</strong> support inheritance, that is, a message may not extend other message.
 Instead composition should be used.</p>
+</div>
+<div class="paragraph">
+<p>Here is the waypoint message we showed in the initial example of this chapter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="asciidoc">/** A waypoint in a route. */
+message Waypoint {
+
+    /** The position. */
+    1: position waypointPosition;
+
+    /** The planned or estimated time of arrival at the waypoint position. */
+    2: timestamp eta;
+
+    /** The rate of turn of the waypoint. In degrees */
+    3: float rot;
+
+    /** The turn radius of the vessel. In nautical miles. */
+    4: float turnRadius;
+
+    /** The waypoints outleg, will be null for the final waypoint. */
+    5: Leg outleg;
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1505,8 +1534,10 @@ Instead composition should be used.</p>
 <div class="sect2">
 <h3 id="endpoints"><a class="anchor" href="#endpoints"></a>5.5. Endpoints</h3>
 <div class="paragraph">
-<p>Think of endpoint definitions as Java interfaces — you need to supply a name and signatures for the methods.
-Here is real simple example:</p>
+<p>Think of endpoint definitions as Java interfaces. Endpoints contains multiple methods that each have a unique name and some kind og signature.</p>
+</div>
+<div class="paragraph">
+<p>Here is real simple example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1536,24 +1567,27 @@ Here is real simple example:</p>
 <p>Namespaces in MSDL are akin to namespaces in C++ or packages in Java — they offer a convenient way of organizing (or isolating) your code. Namespaces may also be used to prevent name clashes between type definitions.</p>
 </div>
 <div class="paragraph">
-<p>While not enforced MSDL files should be ordered in a namespace corresponding to the organization you are working with. For example, at the Danish Maritime Authorities we put all the MSDL files we develop into a "dma.<strong>*</strong>" namespace.</p>
+<p>While not enforced, MSDL files should be ordered in a namespace corresponding to the organization you are working with. For example, at the Danish Maritime Authorities we put all the MSDL files we develop into a "dma.<strong>*</strong>" namespace.</p>
 </div>
 <div class="paragraph">
-<p>We envision a global repository of MSDL files (Service Repository) where everyone can upload their MSDL files.
-Every organization is then responsible for maintaining all their own MSDL files under their own namespace.</p>
+<p>At some point we envision a global repository of MSDL files (Service Repository) where everyone can upload their MSDL files. Every organization is then responsible for maintaining all their own MSDL files under their own namespace. Making it very easy for people to use the work of other organizations.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="includes"><a class="anchor" href="#includes"></a>5.8. Includes</h3>
 <div class="paragraph">
-<p>It is often useful to split up MSDL definitions in separate files to ease maintenance, enable reuse and improve modularity/organization. MSDL allows files to include other MSDL files. Included files are looked up in the current directory and by searching relative to any paths specified when compiling.
-include "dma/foobar.msdl";</p>
+<p>It is often useful to split up MSDL definitions in separate files to ease maintenance, enable reuse and improve modularity/organization. MSDL allows files to include other MSDL files. Included files are looked up in the current directory and by searching relative to any paths specified when compiling.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="asciidoc">include &quot;dma/foobar.msdl&quot;;</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="serialization-of-messages"><a class="anchor" href="#serialization-of-messages"></a>5.9. Serialization of messages</h3>
 <div class="paragraph">
-<p>Unlike, for example AIS. The serialization format of a message is not tightly coupled to the definition of the message. Instead general serialization protocols are implemented that anyone can use. These protocols take any kind of message and serializes it to a byte stream. In the other end an instance of the same protocol takes the stream of bytes and transforms them into an equivalent message.</p>
+<p>Unlike, for example AIS. The serialization format of a message is not tightly coupled to the definition of the message. Instead general serialization protocols are implemented that anyone can use. These protocols take any kind of message and serializes it to a byte stream using predifined rules. In the other end an instance of the same serialization protocol takes the stream of bytes and transforms them into an equivalent message.</p>
 </div>
 <div class="paragraph">
 <p>The current version (0.2) comes with a JSON based protocol. So all messages that are send over the Maritime Cloud are JSON messages. In the future are highly compact binary protocol will be added.</p>
