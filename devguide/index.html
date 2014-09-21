@@ -544,7 +544,7 @@ MathJax.Hub.Config({
 <ul class="sectlevel2">
 <li><a href="#endpoint-definition">3.1. Endpoint Definition</a></li>
 <li><a href="#a-simple-example">3.2. A simple example</a></li>
-<li><a href="#service-discovery">3.3. Service Discovery\</a></li>
+<li><a href="#service-discovery">3.3. Service Discovery</a></li>
 </ul>
 </li>
 <li><a href="#geocasting">4. Geocasting</a>
@@ -1048,7 +1048,7 @@ endpoint MathEndpoint {
 </div>
 </div>
 <div class="paragraph">
-<p>We also need to register the implementation with a MMS Server so remote clients can invoke methods on the endpoint.</p>
+<p>We also need to register the implementation with a MMS Server so remote clients can find and invoke methods on the endpoint.</p>
 </div>
 <div class="paragraph">
 <p>Here is the full example of the Service Provider. For simplicity we have just embedded the actual endpoint implementation from the previous example as an anonymous class.</p>
@@ -1125,7 +1125,7 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 </div>
 <div class="sect2">
-<h3 id="service-discovery"><a class="anchor" href="#service-discovery"></a>3.3. Service Discovery\</h3>
+<h3 id="service-discovery"><a class="anchor" href="#service-discovery"></a>3.3. Service Discovery</h3>
 <div class="paragraph">
 <p>Sometimes we might not know the id of the service provider. For example, we want to find all service providers that provide a service in a certain area.</p>
 </div>
@@ -1172,7 +1172,7 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-1784161ee7bc9cd630a93e3ba29550da.png" alt="Diagram" width="650" height="216">
+<img src="../images/diag-bd6d8401c481c2c35eb7984adf84d838.png" alt="Diagram" width="661" height="216">
 </div>
 </div>
 <div class="paragraph">
@@ -1554,11 +1554,17 @@ message Waypoint {
 <div class="sect2">
 <h3 id="comments"><a class="anchor" href="#comments"></a>5.6. Comments</h3>
 <div class="paragraph">
-<p>MSDL supports C-style multi-line as well as single-line Java/C++ style comments.
-/*
+<p>MSDL supports C-style multi-line as well as single-line Java/C++ style comments.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="asciidoc">/*
  * This is a multi-line comment.
  * Just like in Java or C.
- */</p>
+ */
+
+// C++/Java style single-line comments work just as well.</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1608,6 +1614,13 @@ We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</
 </div>
 <div class="paragraph">
 <p>This chapter is currently being written.</p>
+</div>
+<div class="paragraph">
+<p>But you can look at how the example jar is being created.
+<a href="https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples" class="bare">https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples</a></p>
+</div>
+<div class="paragraph">
+<p>Look in pom.xml</p>
 </div>
 <div class="sect2">
 <h3 id="maven-setup"><a class="anchor" href="#maven-setup"></a>6.1. Maven setup</h3>
