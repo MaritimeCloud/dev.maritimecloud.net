@@ -888,7 +888,7 @@ has successfully connected. And finally close/shutdown the client as the last th
 </div>
 <div class="paragraph">
 <p>Just as connecting was done asynchronously. Shutdown of the client is also done asynchronous.
-So after have performed the shutdown you need to await for the client to have fully shutdown the connection to the MMS server.</p>
+So after having performed the shutdown you need to await for the client to have fully shutdown the connection to the MMS server.</p>
 </div>
 </div>
 <div class="sect2">
@@ -976,7 +976,7 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-94595f7727fbc10ed8a5d0b6c78126aa.png" alt="Diagram" width="661" height="216">
+<img src="../images/service-consumer-provider.png" alt="service consumer provider" width="661" height="216">
 </div>
 </div>
 <div class="sect2">
@@ -1172,7 +1172,7 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-bd6d8401c481c2c35eb7984adf84d838.png" alt="Diagram" width="661" height="216">
+<img src="../images/broadcast.png" alt="broadcast" width="661" height="216">
 </div>
 </div>
 <div class="paragraph">
@@ -1241,7 +1241,7 @@ client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</
 <p>In order to develop new services that can used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
 </div>
 <div class="paragraph">
-<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is an example we use for route exchange.</p>
+<p>An MSDL file is just an ordinary text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like. Here is an example used in the EPD developed at DMA for route exchange.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1329,11 +1329,11 @@ While the main underlying binary serialization format is inspired by the binary 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
+<img src="../images/msdl.png" alt="msdl" width="740" height="378">
 </div>
 </div>
 <div class="paragraph">
-<p>The basic idea is that a single text based MSDL file is created for a service. This file is then distributed to all clients that wish to use this service. These clients then generates stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT or MMS. Or even as an application specific message (AISASM).
+<p>The basic idea is that a single text based MSDL file is created for a service by some organization. This file is then distributed to all clients that wish to use this service. These clients then generates source code stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT or MMS. Or even as an application specific message (AISASM).
 The serialization mechanism is pluggable. So far we have developed a mechanism for serialization messages as JSON. But the next version (0.3) will include a compact binary serialization mechanism as well.</p>
 </div>
 <div class="paragraph">
