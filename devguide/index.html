@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.0">
+<meta name="generator" content="Asciidoctor 1.5.1">
 <title>Maritime Cloud Developer Guide 0.2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
@@ -380,7 +380,7 @@ p{margin-bottom:1.25rem}
 *{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
 a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
-a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after,a[href^="mailto:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
 pre,blockquote,tr,img{page-break-inside:avoid}
 thead{display:table-header-group}
@@ -528,6 +528,7 @@ MathJax.Hub.Config({
 <li><a href="#java-as-a-platform">1.3. Java as a platform</a></li>
 <li><a href="#organization-of-this-guide">1.4. Organization of this guide</a></li>
 <li><a href="#feedback">1.5. Feedback</a></li>
+<li><a href="#source-code">1.6. Source code</a></li>
 </ul>
 </li>
 <li><a href="#connecting-to-a-mms-server">2. Connecting to a MMS server</a>
@@ -550,6 +551,7 @@ MathJax.Hub.Config({
 <li><a href="#geocasting">4. Geocasting</a>
 <ul class="sectlevel2">
 <li><a href="#sending-and-listening-for-broadcasts">4.1. Sending and Listening for broadcasts</a></li>
+<li><a href="#unicast-and-multicast">4.2. Unicast and multicast</a></li>
 </ul>
 </li>
 <li><a href="#msdl">5. MSDL</a>
@@ -584,11 +586,11 @@ MathJax.Hub.Config({
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This development guide describes the current state of the Maritime Cloud as of September 2014. Detailing the 0.2 release of the Maritime Cloud.
+<p>This development guide describes the current state of the Maritime Cloud reference implementation as of September 2014. Detailing the 0.2 release.
 Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
 </div>
 <div class="paragraph">
-<p>This developer guide is intended to make your familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy.</p>
+<p>This developer guide is intended to make you familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy.</p>
 </div>
 <div class="paragraph">
 <p>Some experience with developing for the Java platform is required for using this development guide.
@@ -618,7 +620,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 </div>
 <div class="paragraph">
 <p>The first prototype was built in the winter of 2012 and was implemented in the EPD in spring 2013.
-It just featured basic point to point communication. This is basically what is the Maritime Message Service now. During the summer of 2013  the vision for a general framework for maritime communication was created. Including registries for services and identities in addition to message framework. It also got its name the “Maritime Cloud” as a sort of umbralle name for the various underlying services. In 2014 the first releases of the Maritime Cloud was made available for the public.</p>
+It just featured basic point to point communication. This is basically what is the Maritime Message Service now. During the summer of 2013  the vision for a general framework for maritime communication was created. Including registries for services and identities in addition to the message framework. It also got its name the “Maritime Cloud” as a sort of umbralle name for the various underlying services. In 2014 the first releases of the Maritime Cloud reference implementation was made available for the public.</p>
 </div>
 </div>
 <div class="sect2">
@@ -637,19 +639,22 @@ It just featured basic point to point communication. This is basically what is t
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Identity Registry.</strong> A centralized authority for identities of persons, organizations or ships that are using the Maritime Cloud.</p>
+<p><strong>Maritime Identity Registry.</strong> A centralized authority for identities of persons, organizations or ships that are using the Maritime Cloud.</p>
 </li>
 <li>
-<p><strong>Service Registry.</strong> A centralized repository of service standards and provisioned services world wide.</p>
+<p><strong>Maritime Service Registry.</strong> A centralized repository of service standards and provisioned services world wide.</p>
 </li>
 <li>
-<p>*Maritime Messaging Service (MMS):. A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting<span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>.</p>
+<p><strong>Maritime Messaging Service (MMS).</strong> A communication protocol on top of TCP/IP. Supporting reliable delivery of messages and geocasting<span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Both the identity registry and service registry are still in the specification stage.
 Only the Maritime Messaging Service (MMS) is functional. While functional, please note that the latest realease is still alpha quality. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
+</div>
+<div class="paragraph">
+<p>For more information on the Maritime Cloud concept see: <a href="http://maritimecloud.net" class="bare">http://maritimecloud.net</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -673,7 +678,7 @@ Only the Maritime Messaging Service (MMS) is functional. While functional, pleas
 <p>Chapter 4 describes how messages can be broadcast to a subset of actors within a specific area.</p>
 </div>
 <div class="paragraph">
-<p>Chapter 5 specifies the Maritime Service Definition Language. Which is the language for defining services that can registered with a MMS Server.</p>
+<p>Chapter 5 specifies the Maritime Service Definition Language. Which is the language for defining services that can be registered with a MMS Server.</p>
 </div>
 <div class="paragraph">
 <p>Chapter 6 describes how you can develop your own services with MSDL.</p>
@@ -686,6 +691,12 @@ Only the Maritime Messaging Service (MMS) is functional. While functional, pleas
 </div>
 <div class="paragraph">
 <p>As previously mentioned questions about usage of the Maritime Cloud should be directed to our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="source-code"><a class="anchor" href="#source-code"></a>1.6. Source code</h3>
+<div class="paragraph">
+<p>The source code of the Maritime Cloud reference implementation is available as open source at Github <a href="https://github.com/MaritimeCloud" class="bare">https://github.com/MaritimeCloud</a> under an Apache 2.0 License.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -703,7 +714,7 @@ In the next chapter we go into details about how to communicate with other actor
 </div>
 <div class="paragraph">
 <p>On of the main ideas behind the MMS protocol is that actors/clients never communicate directly. Instead all actors
-must connect to the same MMS server to communicate. To send a message from a <em>Ship A</em> to a <em>Ship B</em>. Ship A must send the message to the MMS server which will relay the message to Ship B.</p>
+must connect to a MMS server to communicate. To send a message from a <em>Ship A</em> to a <em>Ship B</em>. Ship A must send the message to the MMS server which will relay the message to Ship B.</p>
 </div>
 <div class="paragraph">
 <p>There are a number of reasons for this design</p>
@@ -711,7 +722,7 @@ must connect to the same MMS server to communicate. To send a message from a <em
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Making them an potential target for hackers. Instead by requiring them to connect to a central server. Only the server needs to secured properly</p>
+<p><strong>Security,</strong> if actors where to communicate directly. Every actors would have to have some kind of server running with an open public port. Making them an potential target for hackers. Instead by requiring them to connect to a central server. Only the server needs to be secured properly.</p>
 </li>
 <li>
 <p><strong>Availability,</strong> satellite connections are in general more unreliable than landbased connections.
@@ -721,7 +732,7 @@ It is not uncommon that connections comes and go. By having a central server tha
 <p><strong>Bandwidth,</strong> while creating a new TCP/IP connection is a lightway process. It still takes both time and bandwidth.</p>
 </li>
 <li>
-<p><strong>Geocasting,</strong> one of the main functionalities of the MMS protocol is the ability to send messages to all actors in a certain area. A central server(s) is needed to keep track of where everybody is for determining who should receive a particular geocasted message.</p>
+<p><strong>Geocasting,</strong> one of the main functionalities of the MMS protocol is the ability to send messages to all actors in a certain area. Central server(s) is needed to keep track of where everybody is for determining who should receive a particular geocasted message.</p>
 </li>
 </ul>
 </div>
@@ -752,10 +763,10 @@ It is not uncommon that connections comes and go. By having a central server tha
 <div class="sect2">
 <h3 id="identity"><a class="anchor" href="#identity"></a>2.2. Identity</h3>
 <div class="paragraph">
-<p>The first thing you need to do before connecting to a MMS server is to create a MaritimeId which is your unique identity. Think of it as your user name. At some point a centralized indentity will main a database of all users and their identity. But since the Identity Registry is still being specified we are using a temporary solution for now.</p>
+<p>The first thing you need to do before connecting to a MMS server is to create a MaritimeId which is your unique identity. Think of it as your user name. At some point the identity will be maintained in a registry for all stakeholders. But since the Maritime Identity Registry is still being specified we are using a temporary solution for now.</p>
 </div>
 <div class="paragraph">
-<p>Any client connecting must use a integer identifier as their username. If you are emulating a ship you should use its 9 digit MMSI number. Otherwise you are free to choose the id. You should probably stay away for using numbers with 1-4 digits. Because if an actor connects to a MMS server with an identical ID to one that is already connected. The actor that is already connected is automatically disconnected. We use 0123456789 in most examples but you will want to replace it.</p>
+<p>Any client connecting must use an integer identifier as their username. If you are emulating a ship you should use its 9 digit MMSI number. Otherwise you are free to choose the id. You should probably stay away for using numbers with 1-4 digits. Because if an actor connects to a MMS server with an identical ID to one that is already connected. The actor that is already connected is automatically disconnected. We use 0123456789 in most examples but you will want to replace it.</p>
 </div>
 <div class="paragraph">
 <p>For various historic reasons the number must be prefixed with "mmsi:".</p>
@@ -790,7 +801,7 @@ conf.properties().setDescription(<span class="string"><span class="delimiter">&q
 <p>One of the main features of the Maritime Cloud is support for geographical services. To use these services you need to let the MMS server know your current position. This is done by specifying a position reader that the MMS client can query for the current position.</p>
 </div>
 <div class="paragraph">
-<p>Here is simple reader that returns a fixed position at (latitude, longitude) (10,20).</p>
+<p>Here is a simple reader that returns a fixed position at (latitude, longitude) (10,20).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -803,10 +814,13 @@ conf.setPositionReader(staticReader);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Instead of just returning a fixed position. You want to replace it with your own implementation that reads from whatever navigational equipment (for example, GPS) that is available. The timestamp of the position returned must be a timestamp from the time of measurement of the returned position.</p>
+<p>Fixed locations are relevant for non-mobile actors like shore centers and servers providing services. For some actors the location is not relevant at all.</p>
 </div>
 <div class="paragraph">
-<p>If you are in an environment where you do not have access to the real time positions. You can use a PositionSimulator to create a fictive dynamic position.</p>
+<p>For mobile actors like ships, instead of just returning a fixed position you want to replace it with your own implementation that reads from whatever navigational equipment (for example, GPS) that is available. The timestamp of the position returned must be a timestamp from the time of measurement of the returned position.</p>
+</div>
+<div class="paragraph">
+<p>If you are in an environment where you do not have access to real time positions and want to test mobility. You can use a PositionSimulator to create a fictive dynamic position.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -976,13 +990,13 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/service-consumer-provider.png" alt="service consumer provider" width="661" height="216">
+<img src="../images/diag-1cbe357b37dd26a09c1d2b68d357fd8f.png" alt="Diagram" width="656" height="208">
 </div>
 </div>
 <div class="sect2">
 <h3 id="endpoint-definition"><a class="anchor" href="#endpoint-definition"></a>3.1. Endpoint Definition</h3>
 <div class="paragraph">
-<p>Normally, the definition of an endpoint is defined in a MSDL file. This file is than used to generate Java stubs that must be implemented by the party implementing the API of the endpoint. But for the following couple of examples we have already generated the stubs. So all you need to do use the following examples is to download the example jar and add it to your classpath. In later chapters we will see how you can write MSDL with your own endpoints.</p>
+<p>Normally, the definition of an endpoint is defined in a MSDL file. This file is then used to generate source code stubs that must be implemented by the party implementing the API of the endpoint. But for the following couple of examples we have already generated the stubs. So all you need to do use the following examples is to download the example jar and add it to your classpath. In later chapters we will see how you can write MSDL with your own endpoints.</p>
 </div>
 <div class="paragraph">
 <p>The example jar available her <a href="http://repo1.maven.org/maven2/net/maritimecloud/examples/developer-guide/0.2/developer-guide-0.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/examples/developer-guide/0.2/developer-guide-0.2.jar</a>.</p>
@@ -1006,7 +1020,7 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 <p>In the following sections we will be using a very simple endpoint to demonstrate how endpoints can be used with the Maritime Messaging Service.</p>
 </div>
 <div class="paragraph">
-<p>Our endpoint is very simple. It is just a single method that takes two integers and returns the sum of the two integers. Not something you would ever use a remote service for, but for demonstratial purposes it will do just fine. Without going into detail about the syntax, here is the definition of the endpoint in MSDL.</p>
+<p>Our endpoint is very simple. It is just a single method that takes two integers and returns the sum of the two integers. Not something you would ever use a remote service for, but for demonstration purposes it will do just fine. Without going into detail about the syntax, here is the definition of the endpoint in MSDL.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1154,7 +1168,7 @@ That is the method/operation will return immediatly with a future that acts as a
 <p>Geocasting is delivery of information to a group of destinations in a network identified by their geographical locations. Sometimes we refer to geocasting as broadcasting.</p>
 </div>
 <div class="paragraph">
-<p>For example, here is party (red dot) that wishes to geocast a message to everyone located on the african continent.</p>
+<p>For example, here is a party (red dot) that wishes to geocast a message to everyone located on the african continent.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1165,14 +1179,14 @@ That is the method/operation will return immediatly with a future that acts as a
 <p>Geocasts can be very useful, for example, if you want to send a message to every ship that is in your proximite.</p>
 </div>
 <div class="paragraph">
-<p>Instead of sending these messages directly to ships that are near. The actor send the message along to the MMS server with an indicating of the area in where this message should be delivered. This can be either a relative area, for example, send this message too all ships within a 20 km radius of the actor itself. Or an absolute area defined by a polygon.</p>
+<p>Instead of sending these messages directly to ships that are near. The actor send the message along to the MMS server with an indicating of the area in which this message should be delivered. This can be either a relative area, for example, send this message too all ships within a 20 km radius of the actor itself. Or an absolute area defined by a polygon.</p>
 </div>
 <div class="paragraph">
 <p>The MMS server will then look at the position of every ship that is connected to the server. And relay the message only to those ships that are within the area that the actor specified.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/broadcast.png" alt="broadcast" width="661" height="216">
+<img src="../images/diag-bd6d8401c481c2c35eb7984adf84d838.png" alt="Diagram" width="656" height="208">
 </div>
 </div>
 <div class="paragraph">
@@ -1227,6 +1241,15 @@ hello.setMsg(<span class="string"><span class="delimiter">&quot;</span><span cla
 client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Currently it is only possible to listen for geocasts covering own position. In later releases it will be possible to define a area to listen in. Messages sent to an area intersecting with this listening area will result in reception of the message. This is highly relevant for non-mobile actors like shore stations that will be able to listen in a defined area like VTS area.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="unicast-and-multicast"><a class="anchor" href="#unicast-and-multicast"></a>4.2. Unicast and multicast</h3>
+<div class="paragraph">
+<p>Unicast to a single recipient and multicast to a number of recipients is currently not supported but will be implemented in a later version.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1238,10 +1261,10 @@ client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</
 <p>MSDL is an interface description language <span class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</span> or specification language used for describing the interface of a particular set of services in the Maritime Cloud. MSDL is to the Maritime Cloud what IDL is to Corba and what WSDL is to XML based web services.</p>
 </div>
 <div class="paragraph">
-<p>In order to develop new services that can used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
+<p>In order to develop new services that can be used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
 </div>
 <div class="paragraph">
-<p>An MSDL file is just an ordinary text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like. Here is an example used in the EPD developed at DMA for route exchange.</p>
+<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is an example we use for route exchange.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1329,11 +1352,11 @@ While the main underlying binary serialization format is inspired by the binary 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/msdl.png" alt="msdl" width="740" height="378">
+<img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
 </div>
 </div>
 <div class="paragraph">
-<p>The basic idea is that a single text based MSDL file is created for a service by some organization. This file is then distributed to all clients that wish to use this service. These clients then generates source code stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT or MMS. Or even as an application specific message (AISASM).
+<p>The basic idea is that a single text based MSDL file is created for a service. This file is then distributed to all clients that wish to use this service. These clients then generates stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT, VDES or MMS. Or even as an application specific message (AIS ASM).
 The serialization mechanism is pluggable. So far we have developed a mechanism for serialization messages as JSON. But the next version (0.3) will include a compact binary serialization mechanism as well.</p>
 </div>
 <div class="paragraph">
@@ -1576,7 +1599,7 @@ message Waypoint {
 <p>While not enforced, MSDL files should be ordered in a namespace corresponding to the organization you are working with. For example, at the Danish Maritime Authorities we put all the MSDL files we develop into a "dma.<strong>*</strong>" namespace.</p>
 </div>
 <div class="paragraph">
-<p>At some point we envision a global repository of MSDL files (Service Repository) where everyone can upload their MSDL files. Every organization is then responsible for maintaining all their own MSDL files under their own namespace. Making it very easy for people to use the work of other organizations.</p>
+<p>At some point we envision a global repository of MSDL files (Service Repository) where everyone can upload their MSDL files. Every organization is then responsible for maintaining their own MSDL files under their own namespace. Making it very easy for people to use the work of other organizations.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1644,7 +1667,7 @@ We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-09-21 08:38:12 CEST
+Last updated 2014-10-21 10:17:44 CEST
 </div>
 </div>
 </body>
