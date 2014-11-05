@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.1">
-<title>Maritime Cloud Developer Guide 0.2</title>
+<meta name="generator" content="Asciidoctor 1.5.0">
+<meta name="author" content=":icons font">
+<title>Maritime Cloud Developer Guide 0.2.2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -380,7 +381,7 @@ p{margin-bottom:1.25rem}
 *{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
 a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
-a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after,a[href^="mailto:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
 pre,blockquote,tr,img{page-break-inside:avoid}
 thead{display:table-header-group}
@@ -517,7 +518,10 @@ MathJax.Hub.Config({
 </head>
 <body class="book toc2 toc-right">
 <div id="header">
-<h1>Maritime Cloud Developer Guide 0.2</h1>
+<h1>Maritime Cloud Developer Guide 0.2.2</h1>
+<div class="details">
+<span id="author" class="author">:icons font</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -569,8 +573,8 @@ MathJax.Hub.Config({
 </li>
 <li><a href="#creating-new-services">6. Creating new services</a>
 <ul class="sectlevel2">
-<li><a href="#maven-setup">6.1. Maven setup</a></li>
-<li><a href="#example">6.2. Example</a></li>
+<li><a href="#example">6.1. Example</a></li>
+<li><a href="#running-and-building-the-examples">6.2. Running and building the examples</a></li>
 </ul>
 </li>
 </ul>
@@ -611,7 +615,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 <p><strong>Lack of bandwidth.</strong> Only limited amounts of data could be transfered. Often using complex encoding schemes such as application specific AIS messages.</p>
 </li>
 <li>
-<p><strong>Ease of development.</strong> There was no easy way to simulate AIS communication without a complex development setup.</p>
+<p><strong>Ease of development.</strong> There was no easy way to simulate AIS communication without a very complex developer environment.</p>
 </li>
 <li>
 <p><strong>Limited Signal Coverage.</strong> There are certain types of services where the actors communicating might not all be within reach of radio signals.</p>
@@ -619,8 +623,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 </ul>
 </div>
 <div class="paragraph">
-<p>The first prototype was built in the winter of 2012 and was implemented in the EPD in spring 2013.
-It just featured basic point to point communication. This is basically what is the Maritime Message Service now. During the summer of 2013  the vision for a general framework for maritime communication was created. Including registries for services and identities in addition to the message framework. It also got its name the “Maritime Cloud” as a sort of umbralle name for the various underlying services. In 2014 the first releases of the Maritime Cloud reference implementation was made available for the public.</p>
+<p>The first prototype was built in the winter of 2012 and was implemented in the EPD in spring 2013. It just featured basic point to point communication. This is basically what is the Maritime Message Service now. During the summer of 2013 the vision for a general framework for maritime communication was created. Including registries for services and identities in addition to the message based framework. It also got its name the “Maritime Cloud” as a sort of umbralle name for the various underlying services. In 2014 the first release of the Maritime Cloud reference implementation was made available for the public.</p>
 </div>
 </div>
 <div class="sect2">
@@ -742,7 +745,7 @@ It is not uncommon that connections comes and go. By having a central server tha
 <p>First if you do not already have a Java 8 JDK on your machine you should install one. Either from OpenJDK or from Oracle.</p>
 </div>
 <div class="paragraph">
-<p>The MMS client is a single jar available at <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2/mc-mms-client-0.2.jar</a>. There are no other dependencies. Everything needed to connect to a MMS Server is embedded in the jar.</p>
+<p>The MMS client is a single jar available at <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2.2/mc-mms-client-0.2.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2.2/mc-mms-client-0.2.2.jar</a>. There are no other dependencies. Everything needed to connect to a MMS Server is embedded in the jar.</p>
 </div>
 <div class="paragraph">
 <p>If you are using Maven (or a similar build system) you can use the following dependency:</p>
@@ -752,7 +755,7 @@ It is not uncommon that connections comes and go. By having a central server tha
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.mms<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>mc-mms-client<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>0.2<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.2.2<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
@@ -965,8 +968,8 @@ conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.2.1/mc-mms-server-standalone-0.2.1.jar
-java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.2.2/mc-mms-server-standalone-0.2.2.jar
+java -jar mc-mms-server-standalone-0.2.2.jar</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -990,7 +993,7 @@ java -jar mc-mms-server-standalone-0.2.1.jar</code></pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-1cbe357b37dd26a09c1d2b68d357fd8f.png" alt="Diagram" width="656" height="208">
+<img src="../images/service-consumer-provider.png" alt="service consumer provider" width="661" height="216">
 </div>
 </div>
 <div class="sect2">
@@ -1075,7 +1078,7 @@ endpoint MathEndpoint {
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceProvider</span> {
   <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
-    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">mms02.maritimecloud.net</span><span class="delimiter">&quot;</span></span>).build();
+    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>).build();
 
     c.endpointRegister(<span class="keyword">new</span> AbstractMathEndpoint() {
       <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(<span class="predefined-type">Context</span> context, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
@@ -1113,7 +1116,7 @@ endpoint MathEndpoint {
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceConsumer</span> {
   <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
-    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:2223333</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">mms02.maritimecloud.net</span><span class="delimiter">&quot;</span></span>).build();
+    MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:2223333</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>).build();
 
     MathEndpoint e = c.endpointFind(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>), MathEndpoint.class);
 
@@ -1186,7 +1189,7 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-bd6d8401c481c2c35eb7984adf84d838.png" alt="Diagram" width="656" height="208">
+<img src="../images/broadcast.png" alt="broadcast" width="661" height="216">
 </div>
 </div>
 <div class="paragraph">
@@ -1264,7 +1267,7 @@ client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</
 <p>In order to develop new services that can be used with the Maritime Messaging Service you need to specify the interfaces of the services in a MSDL file. But, even if you are just a consumer of existing services it is a good idea to learn the syntax. In order to understand the contract of the service you are using.</p>
 </div>
 <div class="paragraph">
-<p>An MSDL is just a text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like here is an example we use for route exchange.</p>
+<p>An MSDL file is just an ordinary text file with a standardized syntax. Just to give you an idea of what a MSDL file looks like. Here is an example used in the EPD developed at DMA for route exchange.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1352,12 +1355,14 @@ While the main underlying binary serialization format is inspired by the binary 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/diag-0607c1e197a5e9611aee633c636bb4a1.png" alt="Diagram" width="740" height="378">
+<img src="../images/msdl.png" alt="msdl" width="740" height="378">
 </div>
 </div>
 <div class="paragraph">
-<p>The basic idea is that a single text based MSDL file is created for a service. This file is then distributed to all clients that wish to use this service. These clients then generates stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT, VDES or MMS. Or even as an application specific message (AIS ASM).
-The serialization mechanism is pluggable. So far we have developed a mechanism for serialization messages as JSON. But the next version (0.3) will include a compact binary serialization mechanism as well.</p>
+<p>The basic idea is that a single text based MSDL file is created for a service. This file is then distributed to all clients that wish to use this service. These clients then generates stubs that matches the definition from the MSDL file. These stubs then know how to serialize and deserialize to and from byte streams which can be transported over various protocols such as NAVDAT, VDES or MMS. Or even as an application specific message (AIS ASM).</p>
+</div>
+<div class="paragraph">
+<p>The serialization mechanism is pluggable. So far we have developed a mechanism for serialization messages as JSON. But the next version (0.3) will include a compact binary serialization mechanism as well.</p>
 </div>
 <div class="paragraph">
 <p>This following sections in this chapter describes the syntax of MSDL.</p>
@@ -1633,25 +1638,242 @@ message Waypoint {
 <div class="sectionbody">
 <div class="paragraph">
 <p>This chapter details how you can use MSDL to develop new services that can be used over the Maritime Messaging Service.
-We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</p>
-</div>
-<div class="paragraph">
-<p>This chapter is currently being written.</p>
-</div>
-<div class="paragraph">
-<p>But you can look at how the example jar is being created.
-<a href="https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples" class="bare">https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples</a></p>
-</div>
-<div class="paragraph">
-<p>Look in pom.xml</p>
+At the moment we require usage of Apache Maven to generate Java stubs from MSDL files. But in the future we aim to provide a standalone compiler.</p>
 </div>
 <div class="sect2">
-<h3 id="maven-setup"><a class="anchor" href="#maven-setup"></a>6.1. Maven setup</h3>
+<h3 id="example"><a class="anchor" href="#example"></a>6.1. Example</h3>
+<div class="paragraph">
+<p>The following example will use a single pom.xml file, a MSDL file and two Java files.
+The files created should follow this layout.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/chapter7-4files.png" alt="projectlayout">
+</div>
+</div>
+<div class="paragraph">
+<p>The example is taken from <a href="https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples" class="bare">https://github.com/MaritimeCloud/Documentation/tree/master/developer-guide/maven-examples</a>
+which you can clone instead of typing it out yourself.</p>
+</div>
+<div class="sect3">
+<h4 id="pom-xml"><a class="anchor" href="#pom-xml"></a>6.1.1. pom.xml</h4>
+<div class="paragraph">
+<p>In order to use create the Java stubs using the MSDL compiler. You need to enable the MSDL maven plugin in your pom.xml file.
+Here is an example of pom.xml that can be used as the basis. Notice the MDSL build plugin.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
+  &lt;groupId&gt;your.group-id&lt;/groupId&gt;
+  &lt;artifactId&gt;your.artifact.id&lt;/artifactId&gt;
+  &lt;version&gt;123&lt;/version&gt;
+
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;source&gt;1.8&lt;/source&gt;
+          &lt;target&gt;1.8&lt;/target&gt;
+          &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+          &lt;optimize&gt;false&lt;/optimize&gt;
+          &lt;debug&gt;true&lt;/debug&gt;
+          &lt;showDeprecation&gt;true&lt;/showDeprecation&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;net.maritimecloud.msdl&lt;/groupId&gt;
+        &lt;artifactId&gt;mc-msdl-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;0.2.2&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;compile&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;net.maritimecloud.mms&lt;/groupId&gt;
+      &lt;artifactId&gt;mc-mms-client-impl&lt;/artifactId&gt;
+      &lt;version&gt;0.2.2&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="msdl-file"><a class="anchor" href="#msdl-file"></a>6.1.2. MSDL file</h4>
+<div class="paragraph">
+<p>All MSDL files must be place in the <em>src/main/msdl</em> folder. Furthermore more they must be ordered by their namespace.
+For example, a MSDL file with a namespace <em>org.acme</em> should be place in the <em>src/main/msdl/org/acme* folder</em></p>
+</div>
+<div class="paragraph">
+<p>Save this MSDL as <em>src/main/msdl/maritimecloud/examples/examples.msdl</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>namespace maritimecloud.examples;
+
+endpoint MathEndpoint {
+  int sum(1:int left, 2:int right);
+}
+
+broadcast Hello {
+  1: text msg;
+}
+
+endpoint ImageRender {
+  binary render(1:text str);
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="java-files"><a class="anchor" href="#java-files"></a>6.1.3. Java files</h4>
+<div class="paragraph">
+<p>Before we generate the stubs let us add two classes that uses the stubs we generate</p>
+</div>
+<div class="paragraph">
+<p>A client with a random Maritime ID that repeatable sends broadcasts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">net.maritimecloud.example</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.Date</span>;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.ThreadLocalRandom</span>;
+
+<span class="keyword">import</span> <span class="include">maritimecloud.examples.Hello</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.Position</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionReader</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SendBroadcast</span> {
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
+        MmsClientConfiguration conf = MmsClientConfiguration.create();
+        conf.setId(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:</span><span class="delimiter">&quot;</span></span> + ThreadLocalRandom.current().nextLong(<span class="integer">10000</span>, <span class="integer">100000</span>)));
+        conf.setPositionReader(PositionReader.fixedPosition(<span class="predefined-type">Position</span>.create(<span class="integer">1</span>, <span class="integer">1</span>)));
+        conf.properties().setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">MaritimeExampleGuide</span><span class="delimiter">&quot;</span></span>);
+        conf.setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>);
+        MmsClient client = conf.build();
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Starting send client </span><span class="delimiter">&quot;</span></span> + conf.getId());
+        <span class="keyword">for</span>(;;) {
+            Hello hello = <span class="keyword">new</span> Hello();
+            hello.setMsg(<span class="string"><span class="delimiter">&quot;</span><span class="content">HelloWorld</span><span class="delimiter">&quot;</span></span>);
+            client.broadcast(<span class="keyword">new</span> Hello().setMsg(<span class="string"><span class="delimiter">&quot;</span><span class="content">HelloWorld</span><span class="delimiter">&quot;</span></span> + <span class="keyword">new</span> <span class="predefined-type">Date</span>()));
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Broadcast send</span><span class="delimiter">&quot;</span></span>);
+            <span class="predefined-type">Thread</span>.sleep(<span class="integer">1000</span>);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a client that repeatable receives the broadcasts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">net.maritimecloud.example</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.concurrent.ThreadLocalRandom</span>;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.TimeUnit</span>;
+
+<span class="keyword">import</span> <span class="include">maritimecloud.examples.Hello</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.Position</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionReader</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ReceiveBroadcast</span> {
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
+        MmsClientConfiguration conf = MmsClientConfiguration.create();
+        conf.setId(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:</span><span class="delimiter">&quot;</span></span> + ThreadLocalRandom.current().nextLong(<span class="integer">10000</span>, <span class="integer">100000</span>)));
+        conf.setPositionReader(PositionReader.fixedPosition(<span class="predefined-type">Position</span>.create(<span class="integer">1</span>, <span class="integer">1</span>)));
+        conf.properties().setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">MaritimeExampleGuide</span><span class="delimiter">&quot;</span></span>);
+        conf.setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>);
+        MmsClient client = conf.build();
+
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Starting receive client </span><span class="delimiter">&quot;</span></span> + conf.getId());
+
+        client.broadcastListen(Hello.class,
+                (con, e) -&gt; <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Received </span><span class="delimiter">&quot;</span></span> + e.getMsg() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> from </span><span class="delimiter">&quot;</span></span> + con.getBroadcaster()));
+
+
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Waiting for Hello broadcasts</span><span class="delimiter">&quot;</span></span>);
+        <span class="predefined-type">Thread</span>.sleep(<span class="integer">100000</span>);
+        client.close();
+        client.awaitTermination(<span class="integer">1</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="example"><a class="anchor" href="#example"></a>6.2. Example</h3>
-
+<h3 id="running-and-building-the-examples"><a class="anchor" href="#running-and-building-the-examples"></a>6.2. Running and building the examples</h3>
+<div class="paragraph">
+<p>You can generate the Java stubs by using the usual maven targets such as <em>compile</em>, <em>package</em> and <em>install</em>.
+Generation of sources is attached to Maven&#8217;s <em>generate-sources</em> lifecycle as specified in <a href="http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html" class="bare">http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&gt; mvn package</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you inspect the output of the build you will see the following 5 generated java files.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/chapter7-generated.png" alt="projectlayout">
+</div>
+</div>
+<div class="paragraph">
+<p>Since <em>mvn package</em> also compiles your source code you can start the examples from the the command line.
+Here we are using Maven&#8217;s <em>exec</em> plugin which makes it easy to put your dependencies on the classpath.</p>
+</div>
+<div class="paragraph">
+<p>Start the client that broadcasts simple messages by using</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&gt; mvn exec:java -Dexec.mainClass="net.maritimecloud.example.SendBroadcast"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a client that receives the broadcasts by using</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&gt; mvn exec:java -Dexec.mainClass="net.maritimecloud.example.ReceiveBroadcast"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can put the jar file that you have just generated on the classpath in any project.
+And use the stubs that was generated. This make it easy to have a single project that contains
+all MSDL files and generated stubs. And the multiple projects that all references that project.</p>
+</div>
+<div class="paragraph">
+<p>By following chapter 3 it should be easy to register your own endpoints as well.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1667,7 +1889,7 @@ We make frequent use of Maven 3 which can be downloaded from maven.apache.org.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-10-21 10:17:44 CEST
+Last updated 2014-11-05 16:45:14 CET
 </div>
 </div>
 </body>
