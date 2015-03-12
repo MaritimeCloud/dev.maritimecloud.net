@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.0">
-<meta name="author" content=":icons font">
-<title>Maritime Cloud Developer Guide 0.2.2</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
+<meta name="generator" content="Asciidoctor 1.5.2">
+<title>Maritime Cloud Developer Guide 0.3-SNAPSHOT</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 /* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400";*/
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -275,8 +274,8 @@ dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
 ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-check-square-o:first-child,ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{position:relative;top:1px}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -381,7 +380,7 @@ p{margin-bottom:1.25rem}
 *{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
 a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
-a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after,a[href^="mailto:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
 pre,blockquote,tr,img{page-break-inside:avoid}
 thead{display:table-header-group}
@@ -409,7 +408,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 <style>
 /* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
 /*pre.CodeRay {background-color:#f7f7f8;}*/
@@ -511,17 +510,15 @@ MathJax.Hub.Config({
   asciimath2jax: {
     delimiters: [["\\$", "\\$"]],
     ignoreClass: "nostem|noasciimath"
-  }
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.4.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </head>
 <body class="book toc2 toc-right">
 <div id="header">
-<h1>Maritime Cloud Developer Guide 0.2.2</h1>
-<div class="details">
-<span id="author" class="author">:icons font</span><br>
-</div>
+<h1>Maritime Cloud Developer Guide 0.3-SNAPSHOT</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -542,7 +539,6 @@ MathJax.Hub.Config({
 <li><a href="#positionreader">2.3. PositionReader</a></li>
 <li><a href="#connecting-and-disconnecting">2.4. Connecting and Disconnecting</a></li>
 <li><a href="#connection-status">2.5. Connection status</a></li>
-<li><a href="#setting-up-your-own-mms-server">2.6. Setting up your own MMS server</a></li>
 </ul>
 </li>
 <li><a href="#mms-and-services">3. MMS and Services</a>
@@ -590,11 +586,14 @@ MathJax.Hub.Config({
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This development guide describes the current state of the Maritime Cloud reference implementation as of November 2014. Detailing the 0.2.2 release.
-Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
+<p>This development guide describes the current state of the Maritime Cloud reference implementation as of March 2015. Detailing the upcoming 0.3 release.
+This version is still under development. And the API described in this document might change before the release.</p>
 </div>
 <div class="paragraph">
-<p>This developer guide is intended to make you familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy.</p>
+<p>Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
+</div>
+<div class="paragraph">
+<p>This developer guide is intended to make you familiar with developing applications and services for the Maritime Cloud. In addition to this developer guide the javadoc at <a href="http://dev.maritimecloud.net/apidocs/" class="bare">http://dev.maritimecloud.net/apidocs/</a> might come in handy for those using the Java Client.</p>
 </div>
 <div class="paragraph">
 <p>Some experience with developing for the Java platform is required for using this development guide.
@@ -654,7 +653,7 @@ As part of the e-Navigation process the Danish Maritime Authority had been worki
 </div>
 <div class="paragraph">
 <p>Both the identity registry and service registry are still in the specification stage.
-Only the Maritime Messaging Service (MMS) is functional. While functional, please note that the latest realease is still alpha quality. We are working hard on improving the stability and expect the 0.3 release (late 2014) to be a major milestone for a very stable MMS implementation.</p>
+Only the Maritime Messaging Service (MMS) is functional. While functional, please note that the latest realease is still beta quality.</p>
 </div>
 <div class="paragraph">
 <p>For more information on the Maritime Cloud concept see: <a href="http://maritimecloud.net" class="bare">http://maritimecloud.net</a></p>
@@ -729,13 +728,13 @@ must connect to a MMS server to communicate. To send a message from a <em>Ship A
 </li>
 <li>
 <p><strong>Availability,</strong> satellite connections are in general more unreliable than landbased connections.
-It is not uncommon that connections comes and go. By having a central server that is always on. It can act as a sort of mailbox if a client looses the connection temporarily.</p>
+It is not uncommon that connections comes and go. By having a central server that is always on. It can act as a sort of mailbox if a client looses its connection temporarily.</p>
 </li>
 <li>
-<p><strong>Bandwidth,</strong> while creating a new TCP/IP connection is a lightway process. It still takes both time and bandwidth.</p>
+<p><strong>Bandwidth,</strong> while creating a new TCP/IP connection is a lightway process. It still takes both time and bandwidth. When a central approach only a single connection needs to maintained.</p>
 </li>
 <li>
-<p><strong>Geocasting,</strong> one of the main functionalities of the MMS protocol is the ability to send messages to all actors in a certain area. Central server(s) is needed to keep track of where everybody is for determining who should receive a particular geocasted message.</p>
+<p><strong>Geocasting,</strong> one of the main functionalities of the MMS protocol is the ability to send messages to all actors in a certain area. A central server(s) is needed to keep track of where everybody is for determining who should receive a particular geocasted message.</p>
 </li>
 </ul>
 </div>
@@ -745,7 +744,7 @@ It is not uncommon that connections comes and go. By having a central server tha
 <p>First if you do not already have a Java 8 JDK on your machine you should install one. Either from OpenJDK or from Oracle.</p>
 </div>
 <div class="paragraph">
-<p>The MMS client is a single jar available at <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2.2/mc-mms-client-0.2.2.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.2.2/mc-mms-client-0.2.2.jar</a>. There are no other dependencies. Everything needed to connect to a MMS Server is embedded in the jar.</p>
+<p>The MMS client is a single jar available at <a href="http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.3/mc-mms-client-0.3.jar" class="bare">http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-client/0.3/mc-mms-client-0.3.jar</a>. There are no other dependencies. Everything needed to connect to a MMS Server is embedded in the jar.</p>
 </div>
 <div class="paragraph">
 <p>If you are using Maven (or a similar build system) you can use the following dependency:</p>
@@ -755,8 +754,23 @@ It is not uncommon that connections comes and go. By having a central server tha
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.mms<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>mc-mms-client<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>0.2.2<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.3-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since you are using a develop version (snapshot) you also need to add this to your pom.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;pluginRepositories&gt;</span>
+  <span class="tag">&lt;pluginRepository&gt;</span>
+    <span class="tag">&lt;id&gt;</span>sonatype.snapshots<span class="tag">&lt;/id&gt;</span>
+    <span class="tag">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots/<span class="tag">&lt;/url&gt;</span>
+    <span class="tag">&lt;snapshots&gt;</span><span class="tag">&lt;enabled&gt;</span>true<span class="tag">&lt;/enabled&gt;</span><span class="tag">&lt;/snapshots&gt;</span>
+    <span class="tag">&lt;releases&gt;</span><span class="tag">&lt;enabled&gt;</span>false<span class="tag">&lt;/enabled&gt;</span><span class="tag">&lt;/releases&gt;</span>
+  <span class="tag">&lt;/pluginRepository&gt;</span>
+<span class="tag">&lt;/pluginRepositories&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -841,10 +855,10 @@ with a speed between 10 and 30 knots until disconnected.</p>
 <h3 id="connecting-and-disconnecting"><a class="anchor" href="#connecting-and-disconnecting"></a>2.4. Connecting and Disconnecting</h3>
 <div class="paragraph">
 <p>The last thing you need to do before connecting is to set the hostname of the MMS server.
-Unless you have set up your own server (which is easy, see later section). You can use our public instance at mms02.maritimecloud.net.</p>
+Unless you have set up your own server (which is easy, see later section). You can use our public instance at mms03.maritimecloud.net.</p>
 </div>
 <div class="paragraph">
-<p>If you repeatedly fail to connect make sure you are not behind any kind of firewall by telnetting to the MMS server "telnet mms02.maritimecloud.net 43234". If you keep having problems ask for help in our Google Group.</p>
+<p>If you repeatedly fail to connect make sure you are not behind any kind of firewall by telnetting to the MMS server "telnet mms03.maritimecloud.net 43234". If you keep having problems ask for help in our Google Group.</p>
 </div>
 <div class="paragraph">
 <p>Expect the port and url of the public instance to change for every release of the Maritime Cloud. The details of the underlying MMS protocol is still being fleshed out. And different releases are not compatible at the moment.</p>
@@ -859,8 +873,10 @@ has successfully connected. And finally close/shutdown the client as the last th
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">java.util.concurrent.TimeUnit</span>;
 
 <span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms</span>.*;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry</span>.*;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionReader</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionTime</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">MMSConnect</span> {
   <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
@@ -898,7 +914,7 @@ has successfully connected. And finally close/shutdown the client as the last th
 </div>
 </div>
 <div class="paragraph">
-<p>If you are using the public instance of the MMS Server. Your client should appear in the list of connected clients at this site <a href="http://mms02.maritimecloud.net:9099/clients/list/" class="bare">http://mms02.maritimecloud.net:9099/clients/list/</a>. The url basically lists all clients that are connected or have recently been connected. And is primarily used for debugging.</p>
+<p>If you are using the public instance of the MMS Server. Your client should appear in the list of connected clients at this site <a href="http://mms03.maritimecloud.net:9099/clients/list/" class="bare">http://mms03.maritimecloud.net:9099/clients/list/</a>. The url basically lists all clients that are connected or have recently been connected. And is primarily used for debugging.</p>
 </div>
 <div class="paragraph">
 <p>You should always remember to shutdown the client properly. This is mainly done to make sure that all messages that you have send have been properly delivered to the MMS Server.</p>
@@ -920,13 +936,13 @@ useful to be able to query the actual state of the connection. This is easily do
 </div>
 </div>
 <div class="paragraph">
-<p>You can also manually connect and disconnect if you want to.</p>
+<p>You can also manually disable and enable the connection to the MMS server.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
+<pre class="CodeRay highlight"><code data-lang="java">client.connection().disable();
 <span class="comment">// Now lets reconnect again</span>
-client.connection().connect();</code></pre>
+client.connection().enable();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -934,7 +950,7 @@ client.connection().connect();</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">client.connection().disconnect();
+<pre class="CodeRay highlight"><code data-lang="java">client.connection().disable();
 <span class="comment">//Now lets wait up to ten seconds for a fully disconnect</span>
 client.connection().awaitDisconnected(<span class="integer">10</span>, <span class="predefined-type">TimeUnit</span>.SECONDS);</code></pre>
 </div>
@@ -950,7 +966,7 @@ conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
     <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to connect to </span><span class="delimiter">&quot;</span></span> + host);
   }
 
-  <span class="directive">public</span> <span class="type">void</span> connected() {
+  <span class="directive">public</span> <span class="type">void</span> connected(<span class="predefined-type">URI</span> host) {
     <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Connected</span><span class="delimiter">&quot;</span></span>);
   }
 
@@ -959,21 +975,6 @@ conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
   }
 });</code></pre>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="setting-up-your-own-mms-server"><a class="anchor" href="#setting-up-your-own-mms-server"></a>2.6. Setting up your own MMS server</h3>
-<div class="paragraph">
-<p>If for some reason you want to set up your own MMS server it is very easy. Just follow these two simple steps.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.2.2/mc-mms-server-standalone-0.2.2.jar
-java -jar mc-mms-server-standalone-0.2.2.jar</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And then use the hostname where the MMS server is running when you configure the MMS client.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1012,7 +1013,7 @@ java -jar mc-mms-server-standalone-0.2.2.jar</code></pre>
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.examples<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>developer-guide<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>0.2<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.3-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
@@ -1054,11 +1055,12 @@ endpoint MathEndpoint {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">maritimecloud.examples.AbstractMathEndpoint</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">net.maritimecloud.net.MessageHeader</span>;
+<span class="keyword">import</span> <span class="include">maritimecloud.examples.AbstractMathEndpoint</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">MathEndpointImplementation</span> <span class="directive">extends</span> AbstractMathEndpoint{
-  <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(<span class="predefined-type">Context</span> context, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
-    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + context.getCaller());
+  <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(MessageHeader h, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + h.getSender());
     <span class="keyword">return</span> left + right;
   }
 }</code></pre>
@@ -1073,16 +1075,17 @@ endpoint MathEndpoint {
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">maritimecloud.examples.AbstractMathEndpoint</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.MessageHeader</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClientConfiguration</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceProvider</span> {
   <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
     MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>).build();
 
     c.endpointRegister(<span class="keyword">new</span> AbstractMathEndpoint() {
-      <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(<span class="predefined-type">Context</span> context, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + context.getCaller());
+      <span class="directive">protected</span> <span class="predefined-type">Integer</span> sum(MessageHeader h, <span class="predefined-type">Integer</span> left, <span class="predefined-type">Integer</span> right) {
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to sum </span><span class="delimiter">&quot;</span></span> + left + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + right + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + h.getSender());
         <span class="keyword">return</span> left + right;
       }
     });
@@ -1110,15 +1113,15 @@ endpoint MathEndpoint {
 
 <span class="keyword">import</span> <span class="include">maritimecloud.examples.MathEndpoint</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.endpoint.EndpointInvocationFuture</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.EndpointInvocationFuture</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClientConfiguration</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">ServiceConsumer</span> {
   <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">Exception</span> {
     MmsClient c = MmsClientConfiguration.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:2223333</span><span class="delimiter">&quot;</span></span>).setHost(<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>).build();
 
-    MathEndpoint e = c.endpointFind(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>), MathEndpoint.class);
+    MathEndpoint e = c.endpointCreate(MaritimeId.create(<span class="string"><span class="delimiter">&quot;</span><span class="content">mmsi:1112222</span><span class="delimiter">&quot;</span></span>), MathEndpoint.class);
 
     EndpointInvocationFuture&lt;<span class="predefined-type">Integer</span>&gt; sum = e.sum(<span class="integer">123</span>, <span class="integer">456</span>);
     <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content"> 123 + 456 = </span><span class="delimiter">&quot;</span></span> + sum.join());
@@ -1151,9 +1154,9 @@ That is the method/operation will return immediatly with a future that acts as a
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">MmsFuture&lt;<span class="predefined-type">List</span>&lt;MathEndpoint&gt;&gt; endpoints = client.endpointFind(MathEndpoint.class).withinDistanceOf(<span class="integer">10000</span>).findAll();
+<pre class="CodeRay highlight"><code data-lang="java">EndpointInvocationFuture&lt;<span class="predefined-type">List</span>&lt;MathEndpoint&gt;&gt; endpoints = client.endpointLocate(MathEndpoint.class).withinDistanceOf(<span class="integer">10000</span>).findAll();
 <span class="keyword">for</span> (MathEndpoint e : endpoints.join()) {
-  <span class="predefined-type">System</span>.out.println(e.getCaller() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> exposes service MathEndpoint</span><span class="delimiter">&quot;</span></span>);
+  <span class="predefined-type">System</span>.out.println(e.getRemoteId() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> exposes service MathEndpoint</span><span class="delimiter">&quot;</span></span>);
 }</code></pre>
 </div>
 </div>
@@ -1216,8 +1219,8 @@ broadcast Hello {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">client.broadcastListen(Hello.class, (context, broadcast) -&gt; {
-    <span class="predefined-type">System</span>.out.println(context.getBroadcaster() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> sends </span><span class="delimiter">&quot;</span></span> + broadcast.getMsg());
+<pre class="CodeRay highlight"><code data-lang="java">client.broadcastSubscribe(Hello.class, (context, broadcast) -&gt; {
+    <span class="predefined-type">System</span>.out.println(context.getSender() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> sends </span><span class="delimiter">&quot;</span></span> + broadcast.getMsg());
 });</code></pre>
 </div>
 </div>
@@ -1241,7 +1244,7 @@ client.broadcast(hello);</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Hello hello = <span class="keyword">new</span> Hello();
 hello.setMsg(<span class="string"><span class="delimiter">&quot;</span><span class="content">HelloWorld</span><span class="delimiter">&quot;</span></span>);
-client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</code></pre>
+client.broadcast(hello, <span class="keyword">new</span> MmsBroadcastOptions().toArea(<span class="integer">30000</span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1251,7 +1254,7 @@ client.withBroadcast(hello).toArea(<span class="integer">30000</span>).send();</
 <div class="sect2">
 <h3 id="unicast-and-multicast"><a class="anchor" href="#unicast-and-multicast"></a>4.2. Unicast and multicast</h3>
 <div class="paragraph">
-<p>Unicast to a single recipient and multicast to a number of recipients is currently not supported but will be implemented in a later version.</p>
+<p>Unicast to a single recipient and multicast to a number of recipients is currently not supported but will be implemented in later versions.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1624,7 +1627,7 @@ message Waypoint {
 <p>Unlike, for example AIS. The serialization format of a message is not tightly coupled to the definition of the message. Instead general serialization protocols are implemented that anyone can use. These protocols take any kind of message and serializes it to a byte stream using predifined rules. In the other end an instance of the same serialization protocol takes the stream of bytes and transforms them into an equivalent message.</p>
 </div>
 <div class="paragraph">
-<p>The current version (0.2) comes with a JSON based protocol. So all messages that are send over the Maritime Cloud are JSON messages. In the future are highly compact binary protocol will be added.</p>
+<p>The current version comes with a JSON based protocol. So all messages that are send over the Maritime Cloud are JSON messages. In the future are highly compact binary protocol will be added.</p>
 </div>
 <div class="paragraph">
 <p>We expect very few people to actually implement their own serialization protocol. And we will not cover how to do this in this developer guide. Instead look at how the existing JSON protocol is implemented.</p>
@@ -1663,54 +1666,54 @@ Here is an example of pom.xml that can be used as the basis. Notice the MDSL bui
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
-  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;project</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://maven.apache.org/POM/4.0.0</span><span class="delimiter">&quot;</span></span>
+  <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+  <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;modelVersion&gt;</span>4.0.0<span class="tag">&lt;/modelVersion&gt;</span>
 
-  &lt;groupId&gt;your.group-id&lt;/groupId&gt;
-  &lt;artifactId&gt;your.artifact.id&lt;/artifactId&gt;
-  &lt;version&gt;123&lt;/version&gt;
+  <span class="tag">&lt;groupId&gt;</span>your.group-id<span class="tag">&lt;/groupId&gt;</span>
+  <span class="tag">&lt;artifactId&gt;</span>your.artifact.id<span class="tag">&lt;/artifactId&gt;</span>
+  <span class="tag">&lt;version&gt;</span>123<span class="tag">&lt;/version&gt;</span>
 
-  &lt;build&gt;
-    &lt;plugins&gt;
-      &lt;plugin&gt;
-        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-        &lt;version&gt;3.1&lt;/version&gt;
-        &lt;configuration&gt;
-          &lt;source&gt;1.8&lt;/source&gt;
-          &lt;target&gt;1.8&lt;/target&gt;
-          &lt;encoding&gt;UTF-8&lt;/encoding&gt;
-          &lt;optimize&gt;false&lt;/optimize&gt;
-          &lt;debug&gt;true&lt;/debug&gt;
-          &lt;showDeprecation&gt;true&lt;/showDeprecation&gt;
-        &lt;/configuration&gt;
-      &lt;/plugin&gt;
-      &lt;plugin&gt;
-        &lt;groupId&gt;net.maritimecloud.msdl&lt;/groupId&gt;
-        &lt;artifactId&gt;mc-msdl-maven-plugin&lt;/artifactId&gt;
-        &lt;version&gt;0.2.2&lt;/version&gt;
-        &lt;executions&gt;
-          &lt;execution&gt;
-            &lt;goals&gt;
-              &lt;goal&gt;compile&lt;/goal&gt;
-            &lt;/goals&gt;
-          &lt;/execution&gt;
-        &lt;/executions&gt;
-      &lt;/plugin&gt;
-    &lt;/plugins&gt;
-  &lt;/build&gt;
+  <span class="tag">&lt;build&gt;</span>
+    <span class="tag">&lt;plugins&gt;</span>
+      <span class="tag">&lt;plugin&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>3.1<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;configuration&gt;</span>
+          <span class="tag">&lt;source&gt;</span>1.8<span class="tag">&lt;/source&gt;</span>
+          <span class="tag">&lt;target&gt;</span>1.8<span class="tag">&lt;/target&gt;</span>
+          <span class="tag">&lt;encoding&gt;</span>UTF-8<span class="tag">&lt;/encoding&gt;</span>
+          <span class="tag">&lt;optimize&gt;</span>false<span class="tag">&lt;/optimize&gt;</span>
+          <span class="tag">&lt;debug&gt;</span>true<span class="tag">&lt;/debug&gt;</span>
+          <span class="tag">&lt;showDeprecation&gt;</span>true<span class="tag">&lt;/showDeprecation&gt;</span>
+        <span class="tag">&lt;/configuration&gt;</span>
+      <span class="tag">&lt;/plugin&gt;</span>
+      <span class="tag">&lt;plugin&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.msdl<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>mc-msdl-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.3-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;executions&gt;</span>
+          <span class="tag">&lt;execution&gt;</span>
+            <span class="tag">&lt;goals&gt;</span>
+              <span class="tag">&lt;goal&gt;</span>compile<span class="tag">&lt;/goal&gt;</span>
+            <span class="tag">&lt;/goals&gt;</span>
+          <span class="tag">&lt;/execution&gt;</span>
+        <span class="tag">&lt;/executions&gt;</span>
+      <span class="tag">&lt;/plugin&gt;</span>
+    <span class="tag">&lt;/plugins&gt;</span>
+  <span class="tag">&lt;/build&gt;</span>
 
-  &lt;dependencies&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;net.maritimecloud.mms&lt;/groupId&gt;
-      &lt;artifactId&gt;mc-mms-client-impl&lt;/artifactId&gt;
-      &lt;version&gt;0.2.2&lt;/version&gt;
-    &lt;/dependency&gt;
-  &lt;/dependencies&gt;
-&lt;/project&gt;</pre>
+  <span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.mms<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>mc-mms-client-impl<span class="tag">&lt;/artifactId&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.3-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  <span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;/project&gt;</span></code></pre>
 </div>
 </div>
 </div>
@@ -1758,8 +1761,8 @@ endpoint ImageRender {
 
 <span class="keyword">import</span> <span class="include">maritimecloud.examples.Hello</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClientConfiguration</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.Position</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionReader</span>;
 
@@ -1796,8 +1799,8 @@ endpoint ImageRender {
 
 <span class="keyword">import</span> <span class="include">maritimecloud.examples.Hello</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.core.id.MaritimeId</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClient</span>;
-<span class="keyword">import</span> <span class="include">net.maritimecloud.mms.MmsClientConfiguration</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClient</span>;
+<span class="keyword">import</span> <span class="include">net.maritimecloud.net.mms.MmsClientConfiguration</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.Position</span>;
 <span class="keyword">import</span> <span class="include">net.maritimecloud.util.geometry.PositionReader</span>;
 
@@ -1813,8 +1816,8 @@ endpoint ImageRender {
 
         <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Starting receive client </span><span class="delimiter">&quot;</span></span> + conf.getId());
 
-        client.broadcastListen(Hello.class,
-                (con, e) -&gt; <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Received </span><span class="delimiter">&quot;</span></span> + e.getMsg() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> from </span><span class="delimiter">&quot;</span></span> + con.getBroadcaster()));
+        client.broadcastSubscribe(Hello.class,
+                (con, e) -&gt; <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Received </span><span class="delimiter">&quot;</span></span> + e.getMsg() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> from </span><span class="delimiter">&quot;</span></span> + con.getSender()));
 
 
         <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Waiting for Hello broadcasts</span><span class="delimiter">&quot;</span></span>);
@@ -1889,7 +1892,7 @@ all MSDL files and generated stubs. And the multiple projects that all reference
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-11-05 17:43:55 CET
+Last updated 2015-03-12 11:19:41 CET
 </div>
 </div>
 </body>
