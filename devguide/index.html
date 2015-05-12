@@ -537,6 +537,7 @@ MathJax.Hub.Config({
 <li><a href="#positionreader">2.3. PositionReader</a></li>
 <li><a href="#connecting-and-disconnecting">2.4. Connecting and Disconnecting</a></li>
 <li><a href="#connection-status">2.5. Connection status</a></li>
+<li><a href="#setting-up-your-own-mms-server">2.6. Setting up your own MMS server</a></li>
 </ul>
 </li>
 <li><a href="#mms-and-services">3. MMS and Services</a>
@@ -584,8 +585,7 @@ MathJax.Hub.Config({
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This development guide describes the current state of the Maritime Cloud reference implementation as of May 2015. Detailing the upcoming 0.3 release.
-This version is still under development. And the API described in this document might change before the release.</p>
+<p>This development guide describes the current state of the Maritime Cloud reference implementation as of May 2015. Detailing the 0.3-RC1 release.</p>
 </div>
 <div class="paragraph">
 <p>Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
@@ -751,21 +751,6 @@ It is not uncommon that connections comes and go. By having a central server tha
     <span class="tag">&lt;artifactId&gt;</span>mc-mms-client<span class="tag">&lt;/artifactId&gt;</span>
     <span class="tag">&lt;version&gt;</span>0.3-RC1<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Since you are using a develop version (snapshot) you also need to add this to your pom.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;pluginRepositories&gt;</span>
-  <span class="tag">&lt;pluginRepository&gt;</span>
-    <span class="tag">&lt;id&gt;</span>sonatype.snapshots<span class="tag">&lt;/id&gt;</span>
-    <span class="tag">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots/<span class="tag">&lt;/url&gt;</span>
-    <span class="tag">&lt;snapshots&gt;</span><span class="tag">&lt;enabled&gt;</span>true<span class="tag">&lt;/enabled&gt;</span><span class="tag">&lt;/snapshots&gt;</span>
-    <span class="tag">&lt;releases&gt;</span><span class="tag">&lt;enabled&gt;</span>false<span class="tag">&lt;/enabled&gt;</span><span class="tag">&lt;/releases&gt;</span>
-  <span class="tag">&lt;/pluginRepository&gt;</span>
-<span class="tag">&lt;/pluginRepositories&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -998,6 +983,21 @@ conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
   }
 });</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-up-your-own-mms-server"><a class="anchor" href="#setting-up-your-own-mms-server"></a>2.6. Setting up your own MMS server</h3>
+<div class="paragraph">
+<p>If for some reason you want to set up your own MMS server it is very easy. Just follow these two simple steps.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.3-RC1/mc-mms-server-standalone-0.3-RC1.jar
+java -jar mc-mms-server-standalone-0.3-RC1.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And then use the hostname of where the MMS server is running when you configure the MMS client.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1913,7 +1913,7 @@ all MSDL files and generated stubs. And the multiple projects that all reference
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-05-12 15:39:11 ICT
+Last updated 2015-05-12 18:03:30 ICT
 </div>
 </div>
 </body>
