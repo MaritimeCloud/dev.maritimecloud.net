@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<title>Maritime Cloud Developer Guide 0.3-RC1</title>
+<title>Maritime Cloud Developer Guide 0.3</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -518,7 +518,7 @@ MathJax.Hub.Config({
 </head>
 <body class="book toc2 toc-right">
 <div id="header">
-<h1>Maritime Cloud Developer Guide 0.3-RC1</h1>
+<h1>Maritime Cloud Developer Guide 0.3</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -585,7 +585,7 @@ MathJax.Hub.Config({
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This development guide describes the current state of the Maritime Cloud reference implementation as of May 2015. Detailing the 0.3-RC1 release.</p>
+<p>This development guide describes the current state of the Maritime Cloud reference implementation as of May 2015. Detailing the 0.3 release.</p>
 </div>
 <div class="paragraph">
 <p>Please do not email us directly about usage questions. Instead use our Google Group at <a href="https://groups.google.com/forum/#!forum/maritimecloud" class="bare">https://groups.google.com/forum/#!forum/maritimecloud</a> for general usage questions. In this way future users can see answers to commonly asked questions. Google Groups is also where we post information about new releases and updated documentation.</p>
@@ -749,7 +749,7 @@ It is not uncommon that connections comes and go. By having a central server tha
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.mms<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>mc-mms-client<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>0.3-RC1<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.3<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
@@ -992,8 +992,8 @@ conf.addListener(<span class="keyword">new</span> MmsConnection.Listener() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.3-RC1/mc-mms-server-standalone-0.3-RC1.jar
-java -jar mc-mms-server-standalone-0.3-RC1.jar</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">curl -O http://repo1.maven.org/maven2/net/maritimecloud/mms/mc-mms-server-standalone/0.3/mc-mms-server-standalone-0.3.jar
+java -jar mc-mms-server-standalone-0.3.jar</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1036,7 +1036,7 @@ java -jar mc-mms-server-standalone-0.3-RC1.jar</code></pre>
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.examples<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>developer-guide<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>0.3-RC1<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.3<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
@@ -1717,7 +1717,7 @@ Here is an example of pom.xml that can be used as the basis. Notice the MDSL bui
       <span class="tag">&lt;plugin&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.msdl<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>mc-msdl-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>0.3-RC1<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.3<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;executions&gt;</span>
           <span class="tag">&lt;execution&gt;</span>
             <span class="tag">&lt;goals&gt;</span>
@@ -1733,7 +1733,7 @@ Here is an example of pom.xml that can be used as the basis. Notice the MDSL bui
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>net.maritimecloud.mms<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>mc-mms-client-impl<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.3-RC1<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.3<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
   <span class="tag">&lt;/dependencies&gt;</span>
 <span class="tag">&lt;/project&gt;</span></code></pre>
@@ -1913,7 +1913,7 @@ all MSDL files and generated stubs. And the multiple projects that all reference
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-05-12 18:03:30 ICT
+Last updated 2015-06-10 16:20:55 CEST
 </div>
 </div>
 </body>
