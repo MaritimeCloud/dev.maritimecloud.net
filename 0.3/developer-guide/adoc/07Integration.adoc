@@ -1,0 +1,47 @@
+== Security.
+
+Security
+
+
+=== Connecting securely to a MMS server
+
+
+
+
+The main issue with this approach is that.
+
+
+ is that
+
+
+This chapter details how you can use MSDL to develop new services that can be used over the Maritime Messaging Service.
+
+We make frequent use of Maven 3 which can be downloaded from maven.apache.org.
+
+
+=
+
+Make MSDL file service
+
+
+MSDL files that are placed in src/main/msdl
+
+will automatically have their corresponding java classes generated.
+
+
+
+=== Prototype?
+
+
+
+Integration with existing systems
+
+
+C++ is planned but since we are under heavy development it does not make sense to 
+to have two platforms that we need to keep in sync at the same point.
+
+However, here we outline some ideas for how to integrate with other systems.
+  Indbygget webserver
+  
+saet 
+ 
